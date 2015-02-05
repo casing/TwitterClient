@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TweetsViewController">
             <connections>
+                <outlet property="tableView" destination="rjj-rd-w4t" id="PVn-GY-ICK"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,17 +15,18 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qk-Bc-Au5">
-                    <rect key="frame" x="137" y="105" width="49" height="30"/>
-                    <state key="normal" title="Logout">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onLogOut:" destination="-1" eventType="touchUpInside" id="6bQ-p6-sCJ"/>
-                    </connections>
-                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rjj-rd-w4t">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="rjj-rd-w4t" secondAttribute="trailing" id="9uP-sC-ewO"/>
+                <constraint firstAttribute="bottom" secondItem="rjj-rd-w4t" secondAttribute="bottom" id="Jin-gB-l12"/>
+                <constraint firstItem="rjj-rd-w4t" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Qmx-Fo-1K3"/>
+                <constraint firstItem="rjj-rd-w4t" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pfN-M4-gbp"/>
+            </constraints>
             <point key="canvasLocation" x="251" y="405"/>
         </view>
     </objects>
