@@ -12,6 +12,7 @@
 NSString * const kTwitterConsumerKey = @"5ujGW6puP0gWOVSDJ4bvSyYEj";
 NSString * const kTwitterConsumerSecret = @"w2JLdrXKrPvgdhrOxJ4NqeXDOcGOWVyseVMepDhN8NTIhZDL1N";
 NSString * const kTwitterBaseUrl = @"https://api.twitter.com";
+NSString * const kHomeTimelineKey = @"home_timeline";
 
 @interface TwitterClient()
 
@@ -82,8 +83,23 @@ NSString * const kTwitterBaseUrl = @"https://api.twitter.com";
         NSLog(@"%@", responseObject);
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
         completion(tweets, nil);
+        
+        // Store responseObject
+        NSData *data = [NSJSONSerialization dataWithJSONObject:responseObject options:0 error:NULL];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kHomeTimelineKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completion(nil, error);
+        // Try to get UserDefaults if No Network
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kHomeTimelineKey];
+        if (data != nil) {
+            NSLog(@"Retreived Tweets from NSUserDefaults");
+            NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+            NSArray *tweets = [Tweet tweetsWithArray:array];
+            completion(tweets, error);
+        } else {
+            completion(nil, error);
+        }
     }];
 }
 
