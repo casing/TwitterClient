@@ -27,6 +27,9 @@
     // In here to fix TableCell layout issue when using UITableViewAutomaticDimension
     // But was this fix in the latest version?
     self.tweetTextLabel.preferredMaxLayoutWidth = self.tweetTextLabel.frame.size.width;
+    
+    self.profileImageView.layer.cornerRadius = 5;
+    self.profileImageView.clipsToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

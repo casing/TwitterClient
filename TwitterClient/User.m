@@ -45,8 +45,6 @@ NSString * const kCurrentUserKey = @"kCurrentUserKey";
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
             _currentUser = [[User alloc] initWithDictionary:dictionary];
         }
-        
-        _currentUser = [[User alloc] init];
     }
     
     return _currentUser;

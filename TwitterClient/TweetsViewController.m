@@ -11,6 +11,7 @@
 #import "User.h"
 #import "Tweet.h"
 #import "TweetCell.h"
+#import "ComposeViewController.h"
 
 NSString * const kTweetCell = @"TweetCell";
 
@@ -23,6 +24,7 @@ NSString * const kTweetCell = @"TweetCell";
 - (void)updateTweets;
 - (void)onLogout;
 - (void)onTableRefresh;
+- (void)onCompose;
 
 @end
 
@@ -42,12 +44,21 @@ NSString * const kTweetCell = @"TweetCell";
     [self.tableView registerNib:[UINib nibWithNibName:kTweetCell bundle:nil] forCellReuseIdentifier:kTweetCell];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    // Setup Logout Button
+    // Setup Title
     self.title = @"YTwitter";
+    
+    // Setup Logout Button
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Log Out"
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(onLogout)];
+    
+    // Setup Tweet Button
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Compose"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(onCompose)];
+    
     [self updateTweets];
 }
 
@@ -89,5 +100,11 @@ NSString * const kTweetCell = @"TweetCell";
 
 - (void)onLogout {
     [User logout];
+}
+
+- (void)onCompose {
+    //Show User Tweet View Controller
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[ComposeViewController alloc] init]];
+    [self presentViewController:nvc animated:YES completion:nil];
 }
 @end
