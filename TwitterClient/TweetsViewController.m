@@ -112,6 +112,7 @@ NSString * const kTweetCell = @"TweetCell";
 - (void)onCompose {
     //Show User Tweet View Controller
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[ComposeViewController alloc] init]];
+    nvc.navigationBar.barTintColor = [UIColor colorWithRed:58.0/255 green:200.0/255 blue:254.0/255 alpha:1.0];
     [self presentViewController:nvc animated:YES completion:nil];
 }
 

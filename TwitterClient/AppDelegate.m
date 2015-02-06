@@ -24,6 +24,7 @@
     
     instance = [[UINavigationController alloc] initWithRootViewController:[[TweetsViewController alloc] init]];
     instance.navigationBar.translucent = NO;
+    instance.navigationBar.barTintColor = [UIColor colorWithRed:58.0/255 green:200.0/255 blue:254.0/255 alpha:1.0];
     
     return instance;
 }
