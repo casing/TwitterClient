@@ -9,6 +9,8 @@
 #import "ComposeViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "User.h"
+#import "Tweet.h"
+#import "TwitterClient.h"
 
 @interface ComposeViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -61,6 +63,11 @@
 }
 
 - (void)onTweetButton {
+    [[TwitterClient sharedInstance]
+     updateStatusWithText:self.tweetTextLabel.text
+     completion:^(Tweet *tweet, NSError *error) {
+         NSLog(@"Just Tweeted: %@", tweet.text);
+    }];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
