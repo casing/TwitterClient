@@ -10,6 +10,8 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
++ (UINavigationController *)tweetsViewController;
+
 @property (strong, nonatomic) UIWindow *window;
 
 @end

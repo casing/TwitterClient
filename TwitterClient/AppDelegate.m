@@ -19,6 +19,14 @@
 
 @implementation AppDelegate
 
++ (UINavigationController *)tweetsViewController {
+    static UINavigationController *instance = nil;
+    
+    instance = [[UINavigationController alloc] initWithRootViewController:[[TweetsViewController alloc] init]];
+    instance.navigationBar.translucent = NO;
+    
+    return instance;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -28,8 +36,7 @@
     
     User *user = [User currentUser];
     if (user != nil) {
-        UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[TweetsViewController alloc] init]];
-        self.window.rootViewController = nvc;
+        self.window.rootViewController = [AppDelegate tweetsViewController];
     } else {
         NSLog(@"Not Logged in");
         self.window.rootViewController = [[LoginViewController alloc] init];

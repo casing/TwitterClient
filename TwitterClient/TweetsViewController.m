@@ -12,6 +12,7 @@
 #import "Tweet.h"
 #import "TweetCell.h"
 #import "ComposeViewController.h"
+#import "DetailViewController.h"
 
 NSString * const kTweetCell = @"TweetCell";
 
@@ -25,6 +26,7 @@ NSString * const kTweetCell = @"TweetCell";
 - (void)onLogout;
 - (void)onTableRefresh;
 - (void)onCompose;
+- (void)goToDetailsPage:(int)index;
 
 @end
 
@@ -82,6 +84,11 @@ NSString * const kTweetCell = @"TweetCell";
     return UITableViewAutomaticDimension;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self goToDetailsPage:(int)indexPath.row];
+}
+
 #pragma mark - RefreshControl
 - (void)onTableRefresh {
     
@@ -107,4 +114,11 @@ NSString * const kTweetCell = @"TweetCell";
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[ComposeViewController alloc] init]];
     [self presentViewController:nvc animated:YES completion:nil];
 }
+
+- (void)goToDetailsPage:(int)index {
+    DetailViewController *vc = [[DetailViewController alloc] init];
+    vc.tweet = self.tweets[index];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 @end
