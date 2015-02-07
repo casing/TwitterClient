@@ -23,6 +23,8 @@
 		3E2F9D0E1A8284BE00DB5775 /* TweetsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E2F9D0C1A8284BE00DB5775 /* TweetsViewController.xib */; };
 		3E6CA7DC1A84958D000D8A37 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6CA7DA1A84958D000D8A37 /* DetailViewController.m */; };
 		3E6CA7DD1A84958D000D8A37 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E6CA7DB1A84958D000D8A37 /* DetailViewController.xib */; };
+		3E6CA7E21A85E8F5000D8A37 /* TwitterNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E6CA7E01A85E8F5000D8A37 /* TwitterNavigationController.m */; };
+		3E6CA7E31A85E8F5000D8A37 /* TwitterNavigationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E6CA7E11A85E8F5000D8A37 /* TwitterNavigationController.xib */; };
 		3EBD47071A83217F00B6C451 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD47051A83217F00B6C451 /* TweetCell.m */; };
 		3EBD47081A83217F00B6C451 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBD47061A83217F00B6C451 /* TweetCell.xib */; };
 		3EBD470C1A83D34100B6C451 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD470A1A83D34100B6C451 /* ComposeViewController.m */; };
@@ -68,6 +70,9 @@
 		3E6CA7D91A84958D000D8A37 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		3E6CA7DA1A84958D000D8A37 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		3E6CA7DB1A84958D000D8A37 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		3E6CA7DF1A85E8F5000D8A37 /* TwitterNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterNavigationController.h; sourceTree = "<group>"; };
+		3E6CA7E01A85E8F5000D8A37 /* TwitterNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterNavigationController.m; sourceTree = "<group>"; };
+		3E6CA7E11A85E8F5000D8A37 /* TwitterNavigationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterNavigationController.xib; sourceTree = "<group>"; };
 		3EBD47041A83217F00B6C451 /* TweetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetCell.h; sourceTree = "<group>"; };
 		3EBD47051A83217F00B6C451 /* TweetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetCell.m; sourceTree = "<group>"; };
 		3EBD47061A83217F00B6C451 /* TweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetCell.xib; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 		3E2F9CC41A81DB3500DB5775 /* TwitterClient */ = {
 			isa = PBXGroup;
 			children = (
+				3E6CA7DE1A85E8A4000D8A37 /* Navigation */,
 				3EBD47031A83215700B6C451 /* Views */,
 				3E2F9D031A81F6A400DB5775 /* Models */,
 				3E2F9CFF1A81E9CD00DB5775 /* API */,
@@ -196,6 +202,16 @@
 				3E2F9D081A81F6CC00DB5775 /* User.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		3E6CA7DE1A85E8A4000D8A37 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				3E6CA7DF1A85E8F5000D8A37 /* TwitterNavigationController.h */,
+				3E6CA7E01A85E8F5000D8A37 /* TwitterNavigationController.m */,
+				3E6CA7E11A85E8F5000D8A37 /* TwitterNavigationController.xib */,
+			);
+			name = Navigation;
 			sourceTree = "<group>";
 		};
 		3EBD47031A83215700B6C451 /* Views */ = {
@@ -314,6 +330,7 @@
 				3E2F9CD91A81DB3500DB5775 /* LaunchScreen.xib in Resources */,
 				3E2F9CD61A81DB3500DB5775 /* Images.xcassets in Resources */,
 				3E2F9CFC1A81E88300DB5775 /* LoginViewController.xib in Resources */,
+				3E6CA7E31A85E8F5000D8A37 /* TwitterNavigationController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +392,7 @@
 				3E2F9D061A81F6C000DB5775 /* Tweet.m in Sources */,
 				3E2F9CCB1A81DB3500DB5775 /* AppDelegate.m in Sources */,
 				3E2F9CC81A81DB3500DB5775 /* main.m in Sources */,
+				3E6CA7E21A85E8F5000D8A37 /* TwitterNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

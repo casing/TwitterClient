@@ -120,4 +120,69 @@ NSString * const kHomeTimelineKey = @"home_timeline";
     }];
 
 }
+
+- (void)retweetStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion {
+    NSString *endpoint = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json", id_str];
+    [self POST:endpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(tweet, nil);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // Return failure
+        completion(nil, error);
+    }];
+
+}
+
+- (void)directMessageWithText:(NSString *)text screenName:(NSString *)screenName completion:(void (^)(Tweet *tweet, NSError *error))completion {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setValue:text forKey:@"text"];
+    [params setValue:screenName forKey:@"screen_name"];
+    
+    [self POST:@"1.1/direct_messages/new.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(tweet, nil);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // Return failure
+        completion(nil, error);
+    }];
+}
+
+- (void)favoriteStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setValue:id_str forKey:@"id"];
+    
+    [self POST:@"1.1/favorites/create.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(tweet, nil);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // Return failure
+        completion(nil, error);
+    }];
+}
+
+- (void)unFavoriteStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setValue:id_str forKey:@"id"];
+    
+    [self POST:@"1.1/favorites/destroy.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(tweet, nil);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // Return failure
+        completion(nil, error);
+    }];
+}
+
 @end

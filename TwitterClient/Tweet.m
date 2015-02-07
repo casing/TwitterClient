@@ -16,6 +16,7 @@
     
     if (self) {
         self.text = dictionary[@"text"];
+        self.idStr = dictionary[@"id_str"];
         self.user = [[User alloc] initWithDictionary:dictionary[@"user"]];
         NSString *createdAtString = dictionary[@"created_at"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -24,6 +25,11 @@
     }
     
     return self;
+}
+
+- (NSString *)description {
+    NSString *print = [NSString stringWithFormat:@"%@, %@", self.text, self.user.screenName];
+    return print;
 }
 
 + (NSArray *)tweetsWithArray:(NSArray *)array {

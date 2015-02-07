@@ -16,7 +16,7 @@
 
 NSString * const kTweetCell = @"TweetCell";
 
-@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
@@ -69,6 +69,15 @@ NSString * const kTweetCell = @"TweetCell";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - ComposeViewControllerDelegate Methods
+- (void)composeViewController:(ComposeViewController *)composeViewController didComposeMessage:(NSString *)message {
+    [[TwitterClient sharedInstance]
+     updateStatusWithText:message
+     completion:^(Tweet *tweet, NSError *error) {
+         NSLog(@"Just Tweeted: %@", tweet.description);
+     }];
+}
+
 #pragma mark - TableView Delegate Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.tweets.count;
@@ -111,8 +120,10 @@ NSString * const kTweetCell = @"TweetCell";
 
 - (void)onCompose {
     //Show User Tweet View Controller
-    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[ComposeViewController alloc] init]];
-    nvc.navigationBar.barTintColor = [UIColor colorWithRed:58.0/255 green:200.0/255 blue:254.0/255 alpha:1.0];
+    ComposeViewController *vc = [[ComposeViewController alloc] init];
+    vc.delegate = self;
+    vc.text = @"What's happening?";
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];
 }
 

@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
             <connections>
                 <outlet property="createdAtLabel" destination="TG2-p6-VPt" id="N6e-Kn-w8j"/>
+                <outlet property="favoriteButton" destination="ESO-xl-8Rs" id="yII-YI-3Gx"/>
                 <outlet property="nameLabel" destination="weU-4w-wbG" id="AET-F1-AsG"/>
                 <outlet property="profileImageView" destination="9Cx-Xr-N0S" id="Qpi-7c-0s1"/>
                 <outlet property="screenNameLabel" destination="H4c-iG-dOK" id="XOP-Nu-fq4"/>
@@ -51,7 +52,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxp-18-uno">
-                    <rect key="frame" x="8" y="125.5" width="39" height="30"/>
+                    <rect key="frame" x="8" y="125" width="39" height="30"/>
                     <state key="normal" title="Reply">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -60,7 +61,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESO-xl-8Rs">
-                    <rect key="frame" x="256" y="125.5" width="56" height="30"/>
+                    <rect key="frame" x="256" y="125" width="56" height="30"/>
                     <state key="normal" title="Favorite">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -69,7 +70,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOi-eR-JoE">
-                    <rect key="frame" x="71" y="125.5" width="57" height="30"/>
+                    <rect key="frame" x="71" y="125" width="57" height="30"/>
                     <state key="normal" title="Retweet">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -98,6 +99,7 @@
                 <constraint firstItem="9Cx-Xr-N0S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="aAX-nL-aPP"/>
                 <constraint firstItem="EOi-eR-JoE" firstAttribute="top" secondItem="TG2-p6-VPt" secondAttribute="bottom" constant="8" id="bK1-F8-E9J"/>
                 <constraint firstItem="iqK-Gr-WQP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="ebx-9c-TEQ"/>
+                <constraint firstItem="oxp-18-uno" firstAttribute="centerY" secondItem="EOi-eR-JoE" secondAttribute="centerY" id="gIc-UM-Whp"/>
                 <constraint firstItem="iqK-Gr-WQP" firstAttribute="top" secondItem="9Cx-Xr-N0S" secondAttribute="bottom" constant="8" id="gcW-1r-RGn"/>
                 <constraint firstItem="weU-4w-wbG" firstAttribute="leading" secondItem="9Cx-Xr-N0S" secondAttribute="trailing" constant="8" id="ri7-Mf-b5K"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iqK-Gr-WQP" secondAttribute="trailing" constant="8" id="uCU-Tg-OUa"/>

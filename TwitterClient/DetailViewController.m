@@ -8,14 +8,19 @@
 
 #import "DetailViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "TwitterClient.h"
+#import "ComposeViewController.h"
+#import "TwitterNavigationController.h"
 
-@interface DetailViewController ()
+@interface DetailViewController () <ComposeViewControllerDelegate>
+
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tweetTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *createdAtLabel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 
 // Button Actions
 - (IBAction)onReply:(id)sender;
@@ -47,14 +52,33 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - ControllerViewController Delegate Methods
+- (void)composeViewController:(ComposeViewController *)composeViewController didComposeMessage:(NSString *)message {
+    [[TwitterClient sharedInstance] directMessageWithText:self.tweet.idStr screenName:self.tweet.user.screenName completion:^(Tweet *tweet, NSError *error) {
+        NSLog(@"OnReply Status: %@", tweet.description);
+    }];
+}
+
 #pragma mark - Action Methods
 - (IBAction)onReply:(id)sender {
+    //Show User Tweet View Controller
+    ComposeViewController *vc = [[ComposeViewController alloc] init];
+    vc.delegate = self;
+    vc.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
+    TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nvc animated:YES completion:nil];
 }
 
 - (IBAction)onRetweet:(id)sender {
+    [[TwitterClient sharedInstance] retweetStatusWithIdString:self.tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+        NSLog(@"Retweet Status: %@", tweet.description);
+    }];
 }
 
 - (IBAction)onFavorite:(id)sender {
+    [[TwitterClient sharedInstance] favoriteStatusWithIdString:self.tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+        NSLog(@"Favorite Tweet: %@", tweet.description);
+    }];
 }
 
 @end

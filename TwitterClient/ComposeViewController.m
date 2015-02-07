@@ -10,7 +10,6 @@
 #import "UIImageView+AFNetworking.h"
 #import "User.h"
 #import "Tweet.h"
-#import "TwitterClient.h"
 
 @interface ComposeViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -27,8 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Setup Navigation Controller
-    self.navigationController.navigationBar.translucent = NO;
+    // Setup tweet Text Label
+    self.tweetTextLabel.text = self.text;
     
     // Setup Image View
     self.profileImageView.layer.cornerRadius = 5;
@@ -63,11 +62,7 @@
 }
 
 - (void)onTweetButton {
-    [[TwitterClient sharedInstance]
-     updateStatusWithText:self.tweetTextLabel.text
-     completion:^(Tweet *tweet, NSError *error) {
-         NSLog(@"Just Tweeted: %@", tweet.text);
-    }];
+    [self.delegate composeViewController:self didComposeMessage:self.tweetTextLabel.text];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
