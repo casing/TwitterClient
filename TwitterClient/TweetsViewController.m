@@ -17,16 +17,20 @@
 
 NSString * const kTweetCell = @"TweetCell";
 
-@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate, TweetCellDelegate>
+@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate,
+ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
-@property (nonatomic, strong) NSArray *tweets;
+@property (nonatomic, strong) NSMutableArray *tweets;
 
 - (void)updateTweets;
 - (void)onLogout;
 - (void)onTableRefresh;
 - (void)onCompose;
+- (void)onReplyTweet:(Tweet *)tweet;
+- (void)onRetweetTweet:(Tweet *)tweet;
+- (void)onFavoriteTweet:(Tweet *)tweet;
 - (void)goToDetailsPage:(int)index;
 
 @end
@@ -35,6 +39,8 @@ NSString * const kTweetCell = @"TweetCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Initialize Tweet Array
+    self.tweets = [[NSMutableArray alloc] init];
     
     // Table Refresh control
     self.tableRefreshControl = [[UIRefreshControl alloc] init];
@@ -77,13 +83,21 @@ NSString * const kTweetCell = @"TweetCell";
          directMessageWithText:composeViewController.tweet.idStr
          screenName:composeViewController.tweet.user.screenName
          completion:^(Tweet *tweet, NSError *error) {
-            NSLog(@"OnReply Status: %@", tweet.description);
+             NSLog(@"OnReply Status: %@", tweet.description);
+             if (tweet != nil) {
+                 [self.tweets insertObject:tweet atIndex:0]; //Insert at the beginning of array
+                 [self.tableView reloadData];
+             }
         }];
     } else {
         [[TwitterClient sharedInstance]
          updateStatusWithText:message
          completion:^(Tweet *tweet, NSError *error) {
              NSLog(@"Just Tweeted: %@", tweet.description);
+             if (tweet != nil) {
+                 [self.tweets insertObject:tweet atIndex:0]; //Insert at the beginning of array
+                 [self.tableView reloadData];
+             }
          }];
     }
 }
@@ -115,33 +129,38 @@ NSString * const kTweetCell = @"TweetCell";
     [self updateTweets];
 }
 
+#pragma mark - DetailViewControllerDelegate Methods
+- (void)didReply:(DetailViewController *)vc {
+    [self onReplyTweet:vc.tweet];
+}
+
+- (void)didRetweet:(DetailViewController *)vc {
+    [self onRetweetTweet:vc.tweet];
+}
+
+- (void)didFavorite:(DetailViewController *)vc {
+    [self onFavoriteTweet:vc.tweet];
+}
+
 #pragma mark - TweetCellDelegate Methods
 - (void)didReplyTweetCell:(TweetCell *)cell {
-    ComposeViewController *vc = [[ComposeViewController alloc] init];
-    vc.delegate = self;
-    vc.tweet = cell.tweet;
-    vc.text = [NSString stringWithFormat:@"@%@", cell.tweet.user.screenName];
-    TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:nvc animated:YES completion:nil];
+    [self onReplyTweet:cell.tweet];
 }
 
 - (void)didRetweetTweetCell:(TweetCell *)cell {
-    [[TwitterClient sharedInstance] retweetStatusWithIdString:cell.tweet.idStr completion:^(Tweet *tweet, NSError *error) {
-        NSLog(@"Retweet Status: %@", tweet.description);
-    }];
+    [self onRetweetTweet:cell.tweet];
 }
 
 - (void)didFavoriteTweetCell:(TweetCell *)cell {
-    [[TwitterClient sharedInstance] favoriteStatusWithIdString:cell.tweet.idStr completion:^(Tweet *tweet, NSError *error) {
-        NSLog(@"Favorite Tweet: %@", tweet.description);
-    }];
+    [self onFavoriteTweet:cell.tweet];
 }
 
 #pragma mark - Private Methods
 - (void)updateTweets {
     
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        self.tweets = tweets;
+        [self.tweets removeAllObjects];
+        [self.tweets addObjectsFromArray:tweets];
         [self.tableView reloadData];
         [self.tableRefreshControl endRefreshing];
     }];
@@ -161,9 +180,31 @@ NSString * const kTweetCell = @"TweetCell";
     [self presentViewController:nvc animated:YES completion:nil];
 }
 
+- (void)onReplyTweet:(Tweet *)tweet {
+    ComposeViewController *vc = [[ComposeViewController alloc] init];
+    vc.delegate = self;
+    vc.tweet = tweet;
+    vc.text = [NSString stringWithFormat:@"@%@", tweet.user.screenName];
+    TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nvc animated:YES completion:nil];
+}
+
+- (void)onRetweetTweet:(Tweet *)tweet {
+    [[TwitterClient sharedInstance] retweetStatusWithIdString:tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+        NSLog(@"Retweet Status: %@", tweet.description);
+    }];
+}
+
+- (void)onFavoriteTweet:(Tweet *)tweet {
+    [[TwitterClient sharedInstance] favoriteStatusWithIdString:tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+        NSLog(@"Favorite Tweet: %@", tweet.description);
+    }];
+}
+
 - (void)goToDetailsPage:(int)index {
     DetailViewController *vc = [[DetailViewController alloc] init];
     vc.tweet = self.tweets[index];
+    vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
