@@ -9,7 +9,6 @@
 #import "ComposeViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "User.h"
-#import "Tweet.h"
 
 @interface ComposeViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

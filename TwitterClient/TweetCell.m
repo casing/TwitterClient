@@ -8,6 +8,9 @@
 
 #import "TweetCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "TwitterClient.h"
+#import "TwitterNavigationController.h"
+#import "ComposeViewController.h"
 
 @interface TweetCell ()
 
@@ -18,6 +21,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *tweetTextLabel;
 
 - (NSString *)getCreatedDateLabel;
+
+- (IBAction)onReply:(id)sender;
+- (IBAction)onRetweet:(id)sender;
+- (IBAction)onFavorite:(id)sender;
 
 @end
 
@@ -48,6 +55,11 @@
     self.createdLabel.text = [self getCreatedDateLabel];
 }
 
+#pragma mark - ComposeViewControllerDelegate - Methods
+- (void)composeViewController:(ComposeViewController *)composeViewController didComposeMessage:(NSString *)message {
+    
+}
+
 #pragma mark - Private Methods
 - (NSString *)getCreatedDateLabel {
     NSDate *current = [NSDate date];
@@ -71,6 +83,18 @@
     } else {
         return [NSString stringWithFormat:@"%lds", components.second];
     }
+}
+
+- (IBAction)onReply:(id)sender {
+    [self.delegate didReplyTweetCell:self];
+}
+
+- (IBAction)onRetweet:(id)sender {
+    [self.delegate didRetweetTweetCell:self];
+}
+
+- (IBAction)onFavorite:(id)sender {
+    [self.delegate didFavoriteTweetCell:self];
 }
 
 @end

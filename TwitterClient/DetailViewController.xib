@@ -51,27 +51,39 @@
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxp-18-uno">
-                    <rect key="frame" x="8" y="125" width="39" height="30"/>
-                    <state key="normal" title="Reply">
+                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oxp-18-uno">
+                    <rect key="frame" x="8" y="125" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="CaJ-Cc-H3l"/>
+                        <constraint firstAttribute="height" constant="24" id="IBp-lJ-TZC"/>
+                    </constraints>
+                    <state key="normal" title="Reply" image="reply_gray_24">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="onReply:" destination="-1" eventType="touchUpInside" id="gen-fx-DKu"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESO-xl-8Rs">
-                    <rect key="frame" x="256" y="125" width="56" height="30"/>
-                    <state key="normal" title="Favorite">
+                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESO-xl-8Rs">
+                    <rect key="frame" x="104" y="125" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="EfK-JY-fFV"/>
+                        <constraint firstAttribute="width" constant="24" id="a66-6W-cWT"/>
+                    </constraints>
+                    <state key="normal" title="Favorite" image="favorite_gray_24">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="onFavorite:" destination="-1" eventType="touchUpInside" id="los-ey-DMF"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOi-eR-JoE">
-                    <rect key="frame" x="71" y="125" width="57" height="30"/>
-                    <state key="normal" title="Retweet">
+                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOi-eR-JoE">
+                    <rect key="frame" x="56" y="125" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="M5B-aY-r8r"/>
+                        <constraint firstAttribute="height" constant="24" id="ad0-Fh-IYN"/>
+                    </constraints>
+                    <state key="normal" title="Retweet" image="retweet_gray_24">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -87,7 +99,7 @@
                 <constraint firstItem="ESO-xl-8Rs" firstAttribute="centerY" secondItem="oxp-18-uno" secondAttribute="centerY" id="73b-rh-WDX"/>
                 <constraint firstItem="TG2-p6-VPt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="7Gz-su-vIS"/>
                 <constraint firstItem="oxp-18-uno" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="7vU-C5-1SU"/>
-                <constraint firstAttribute="trailing" secondItem="ESO-xl-8Rs" secondAttribute="trailing" constant="8" id="D5U-11-GeS"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ESO-xl-8Rs" secondAttribute="trailing" constant="8" id="D5U-11-GeS"/>
                 <constraint firstItem="H4c-iG-dOK" firstAttribute="leading" secondItem="9Cx-Xr-N0S" secondAttribute="trailing" constant="8" id="EuP-LE-yYZ"/>
                 <constraint firstItem="weU-4w-wbG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="MLp-uq-E1N"/>
                 <constraint firstItem="H4c-iG-dOK" firstAttribute="top" secondItem="weU-4w-wbG" secondAttribute="bottom" constant="5" id="Nf9-Wi-8if"/>
@@ -103,13 +115,18 @@
                 <constraint firstItem="iqK-Gr-WQP" firstAttribute="top" secondItem="9Cx-Xr-N0S" secondAttribute="bottom" constant="8" id="gcW-1r-RGn"/>
                 <constraint firstItem="weU-4w-wbG" firstAttribute="leading" secondItem="9Cx-Xr-N0S" secondAttribute="trailing" constant="8" id="ri7-Mf-b5K"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iqK-Gr-WQP" secondAttribute="trailing" constant="8" id="uCU-Tg-OUa"/>
-                <constraint firstItem="ESO-xl-8Rs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EOi-eR-JoE" secondAttribute="trailing" constant="24" id="uYB-R8-Zrw"/>
+                <constraint firstItem="ESO-xl-8Rs" firstAttribute="leading" secondItem="EOi-eR-JoE" secondAttribute="trailing" constant="24" id="uYB-R8-Zrw"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EOi-eR-JoE" secondAttribute="bottom" constant="8" id="ua8-KJ-dKA"/>
                 <constraint firstItem="TG2-p6-VPt" firstAttribute="top" secondItem="iqK-Gr-WQP" secondAttribute="bottom" constant="8" id="z7H-EE-S2k"/>
             </constraints>
             <point key="canvasLocation" x="355" y="250"/>
         </view>
     </objects>
+    <resources>
+        <image name="favorite_gray_24" width="256" height="256"/>
+        <image name="reply_gray_24" width="256" height="256"/>
+        <image name="retweet_gray_24" width="256" height="256"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

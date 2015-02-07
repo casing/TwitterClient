@@ -64,6 +64,7 @@
     //Show User Tweet View Controller
     ComposeViewController *vc = [[ComposeViewController alloc] init];
     vc.delegate = self;
+    vc.tweet = self.tweet;
     vc.text = [NSString stringWithFormat:@"@%@", self.tweet.user.screenName];
     TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];

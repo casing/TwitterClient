@@ -13,10 +13,11 @@
 #import "TweetCell.h"
 #import "ComposeViewController.h"
 #import "DetailViewController.h"
+#import "TwitterNavigationController.h"
 
 NSString * const kTweetCell = @"TweetCell";
 
-@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
+@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate, TweetCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
@@ -71,11 +72,20 @@ NSString * const kTweetCell = @"TweetCell";
 
 #pragma mark - ComposeViewControllerDelegate Methods
 - (void)composeViewController:(ComposeViewController *)composeViewController didComposeMessage:(NSString *)message {
-    [[TwitterClient sharedInstance]
-     updateStatusWithText:message
-     completion:^(Tweet *tweet, NSError *error) {
-         NSLog(@"Just Tweeted: %@", tweet.description);
-     }];
+    if (composeViewController.tweet != nil) {
+        [[TwitterClient sharedInstance]
+         directMessageWithText:composeViewController.tweet.idStr
+         screenName:composeViewController.tweet.user.screenName
+         completion:^(Tweet *tweet, NSError *error) {
+            NSLog(@"OnReply Status: %@", tweet.description);
+        }];
+    } else {
+        [[TwitterClient sharedInstance]
+         updateStatusWithText:message
+         completion:^(Tweet *tweet, NSError *error) {
+             NSLog(@"Just Tweeted: %@", tweet.description);
+         }];
+    }
 }
 
 #pragma mark - TableView Delegate Methods
@@ -85,6 +95,7 @@ NSString * const kTweetCell = @"TweetCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kTweetCell forIndexPath:indexPath];
+    cell.delegate = self;
     cell.tweet = self.tweets[indexPath.row];
     return cell;
 }
@@ -102,6 +113,28 @@ NSString * const kTweetCell = @"TweetCell";
 - (void)onTableRefresh {
     
     [self updateTweets];
+}
+
+#pragma mark - TweetCellDelegate Methods
+- (void)didReplyTweetCell:(TweetCell *)cell {
+    ComposeViewController *vc = [[ComposeViewController alloc] init];
+    vc.delegate = self;
+    vc.tweet = cell.tweet;
+    vc.text = [NSString stringWithFormat:@"@%@", cell.tweet.user.screenName];
+    TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nvc animated:YES completion:nil];
+}
+
+- (void)didRetweetTweetCell:(TweetCell *)cell {
+    [[TwitterClient sharedInstance] retweetStatusWithIdString:cell.tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+        NSLog(@"Retweet Status: %@", tweet.description);
+    }];
+}
+
+- (void)didFavoriteTweetCell:(TweetCell *)cell {
+    [[TwitterClient sharedInstance] favoriteStatusWithIdString:cell.tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+        NSLog(@"Favorite Tweet: %@", tweet.description);
+    }];
 }
 
 #pragma mark - Private Methods
@@ -122,8 +155,9 @@ NSString * const kTweetCell = @"TweetCell";
     //Show User Tweet View Controller
     ComposeViewController *vc = [[ComposeViewController alloc] init];
     vc.delegate = self;
+    vc.tweet = nil;
     vc.text = @"What's happening?";
-    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];
 }
 
