@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComposeViewController">
             <connections>
+                <outlet property="countLabel" destination="yBc-7z-6hX" id="Vi7-x7-A2M"/>
                 <outlet property="nameLabel" destination="4gi-x9-fwJ" id="o8B-pM-1KZ"/>
                 <outlet property="profileImageView" destination="4tY-58-tgq" id="vzi-76-q71"/>
                 <outlet property="screenNameLabel" destination="SeW-aF-sX3" id="rcU-Gj-Nsy"/>
@@ -43,23 +44,31 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="160" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yBc-7z-6hX">
+                    <rect key="frame" x="290.5" y="8" width="21" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SeW-aF-sX3" secondAttribute="trailing" constant="8" id="4EX-Ma-j7i"/>
                 <constraint firstAttribute="trailing" secondItem="MPa-w3-XhD" secondAttribute="trailing" constant="8" id="4bJ-ID-SQD"/>
                 <constraint firstItem="4gi-x9-fwJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="7Bp-YN-Cpe"/>
+                <constraint firstAttribute="trailing" secondItem="yBc-7z-6hX" secondAttribute="trailing" constant="8" id="QM9-Kh-0h4"/>
                 <constraint firstItem="4gi-x9-fwJ" firstAttribute="leading" secondItem="4tY-58-tgq" secondAttribute="trailing" constant="8" id="WKP-HP-YEj"/>
+                <constraint firstItem="yBc-7z-6hX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4gi-x9-fwJ" secondAttribute="trailing" constant="8" id="adk-nL-kyG"/>
                 <constraint firstItem="MPa-w3-XhD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="aey-8q-6fN"/>
+                <constraint firstItem="yBc-7z-6hX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="eNm-wg-ZCd"/>
                 <constraint firstItem="4tY-58-tgq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="fVC-3O-qFF"/>
                 <constraint firstItem="SeW-aF-sX3" firstAttribute="leading" secondItem="4tY-58-tgq" secondAttribute="trailing" constant="8" id="gZh-6m-h80"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4gi-x9-fwJ" secondAttribute="trailing" constant="8" id="hde-V0-khc"/>
                 <constraint firstItem="4tY-58-tgq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="iSJ-Gc-TWW"/>
                 <constraint firstItem="MPa-w3-XhD" firstAttribute="top" secondItem="4tY-58-tgq" secondAttribute="bottom" constant="8" id="mud-Ij-1ed"/>
                 <constraint firstAttribute="bottom" secondItem="MPa-w3-XhD" secondAttribute="bottom" constant="8" id="qYf-l0-ut4"/>
                 <constraint firstItem="SeW-aF-sX3" firstAttribute="top" secondItem="4gi-x9-fwJ" secondAttribute="bottom" constant="2" id="xg5-EB-zee"/>
             </constraints>
-            <point key="canvasLocation" x="491" y="257"/>
+            <point key="canvasLocation" x="382" y="235"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
