@@ -8,8 +8,11 @@
             <connections>
                 <outlet property="createdAtLabel" destination="TG2-p6-VPt" id="N6e-Kn-w8j"/>
                 <outlet property="favoriteButton" destination="ESO-xl-8Rs" id="yII-YI-3Gx"/>
+                <outlet property="favoriteCountLabel" destination="sat-6b-zfm" id="EGX-qp-op3"/>
                 <outlet property="nameLabel" destination="weU-4w-wbG" id="AET-F1-AsG"/>
                 <outlet property="profileImageView" destination="9Cx-Xr-N0S" id="Qpi-7c-0s1"/>
+                <outlet property="retweetButton" destination="EOi-eR-JoE" id="b33-lg-scY"/>
+                <outlet property="retweetCountLabel" destination="ydt-hr-bUY" id="war-29-WLn"/>
                 <outlet property="screenNameLabel" destination="H4c-iG-dOK" id="XOP-Nu-fq4"/>
                 <outlet property="tweetTextLabel" destination="iqK-Gr-WQP" id="cSH-Yo-WnU"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -65,7 +68,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESO-xl-8Rs">
-                    <rect key="frame" x="104" y="125" width="24" height="24"/>
+                    <rect key="frame" x="188" y="125" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="EfK-JY-fFV"/>
                         <constraint firstAttribute="width" constant="24" id="a66-6W-cWT"/>
@@ -78,7 +81,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOi-eR-JoE">
-                    <rect key="frame" x="56" y="125" width="24" height="24"/>
+                    <rect key="frame" x="92" y="125" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="24" id="M5B-aY-r8r"/>
                         <constraint firstAttribute="height" constant="24" id="ad0-Fh-IYN"/>
@@ -90,32 +93,50 @@
                         <action selector="onRetweet:" destination="-1" eventType="touchUpInside" id="YEB-X7-V9k"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydt-hr-bUY">
+                    <rect key="frame" x="120" y="129.5" width="28" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="9999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sat-6b-zfm">
+                    <rect key="frame" x="215" y="129" width="31" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="weU-4w-wbG" secondAttribute="trailing" constant="8" id="0c1-7h-zjB"/>
+                <constraint firstItem="ydt-hr-bUY" firstAttribute="leading" secondItem="EOi-eR-JoE" secondAttribute="trailing" constant="4" id="50d-nN-4ff"/>
                 <constraint firstItem="oxp-18-uno" firstAttribute="top" secondItem="TG2-p6-VPt" secondAttribute="bottom" constant="8" id="5Gc-uj-Ev2"/>
                 <constraint firstItem="9Cx-Xr-N0S" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="5s0-bp-PqB"/>
                 <constraint firstItem="ESO-xl-8Rs" firstAttribute="centerY" secondItem="oxp-18-uno" secondAttribute="centerY" id="73b-rh-WDX"/>
                 <constraint firstItem="TG2-p6-VPt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="7Gz-su-vIS"/>
                 <constraint firstItem="oxp-18-uno" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="7vU-C5-1SU"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ESO-xl-8Rs" secondAttribute="trailing" constant="8" id="D5U-11-GeS"/>
                 <constraint firstItem="H4c-iG-dOK" firstAttribute="leading" secondItem="9Cx-Xr-N0S" secondAttribute="trailing" constant="8" id="EuP-LE-yYZ"/>
+                <constraint firstItem="ydt-hr-bUY" firstAttribute="centerY" secondItem="EOi-eR-JoE" secondAttribute="centerY" id="F5O-H7-43s"/>
+                <constraint firstItem="sat-6b-zfm" firstAttribute="leading" secondItem="ESO-xl-8Rs" secondAttribute="trailing" constant="3" id="JjU-9v-3mI"/>
+                <constraint firstItem="ESO-xl-8Rs" firstAttribute="centerY" secondItem="sat-6b-zfm" secondAttribute="centerY" id="LwC-sX-CFi"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sat-6b-zfm" secondAttribute="trailing" constant="8" id="MLe-nJ-77Q"/>
                 <constraint firstItem="weU-4w-wbG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="MLp-uq-E1N"/>
                 <constraint firstItem="H4c-iG-dOK" firstAttribute="top" secondItem="weU-4w-wbG" secondAttribute="bottom" constant="5" id="Nf9-Wi-8if"/>
+                <constraint firstItem="ESO-xl-8Rs" firstAttribute="leading" secondItem="ydt-hr-bUY" secondAttribute="trailing" constant="40" id="Nma-Wr-ClN"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ESO-xl-8Rs" secondAttribute="bottom" constant="8" id="Oo0-bs-fGh"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="oxp-18-uno" secondAttribute="bottom" constant="8" id="UuO-iC-DZg"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="TG2-p6-VPt" secondAttribute="trailing" constant="8" id="UxZ-yL-kx0"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="H4c-iG-dOK" secondAttribute="trailing" constant="8" id="ZOh-6k-BrF"/>
-                <constraint firstItem="EOi-eR-JoE" firstAttribute="leading" secondItem="oxp-18-uno" secondAttribute="trailing" constant="24" id="ZsE-TW-61o"/>
+                <constraint firstItem="EOi-eR-JoE" firstAttribute="leading" secondItem="oxp-18-uno" secondAttribute="trailing" constant="60" id="ZsE-TW-61o"/>
                 <constraint firstItem="9Cx-Xr-N0S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="aAX-nL-aPP"/>
                 <constraint firstItem="EOi-eR-JoE" firstAttribute="top" secondItem="TG2-p6-VPt" secondAttribute="bottom" constant="8" id="bK1-F8-E9J"/>
                 <constraint firstItem="iqK-Gr-WQP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="ebx-9c-TEQ"/>
                 <constraint firstItem="oxp-18-uno" firstAttribute="centerY" secondItem="EOi-eR-JoE" secondAttribute="centerY" id="gIc-UM-Whp"/>
                 <constraint firstItem="iqK-Gr-WQP" firstAttribute="top" secondItem="9Cx-Xr-N0S" secondAttribute="bottom" constant="8" id="gcW-1r-RGn"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ydt-hr-bUY" secondAttribute="bottom" constant="8" id="iyF-DS-gQr"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="sat-6b-zfm" secondAttribute="bottom" constant="8" id="rNg-Bw-HfM"/>
                 <constraint firstItem="weU-4w-wbG" firstAttribute="leading" secondItem="9Cx-Xr-N0S" secondAttribute="trailing" constant="8" id="ri7-Mf-b5K"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iqK-Gr-WQP" secondAttribute="trailing" constant="8" id="uCU-Tg-OUa"/>
-                <constraint firstItem="ESO-xl-8Rs" firstAttribute="leading" secondItem="EOi-eR-JoE" secondAttribute="trailing" constant="24" id="uYB-R8-Zrw"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EOi-eR-JoE" secondAttribute="bottom" constant="8" id="ua8-KJ-dKA"/>
                 <constraint firstItem="TG2-p6-VPt" firstAttribute="top" secondItem="iqK-Gr-WQP" secondAttribute="bottom" constant="8" id="z7H-EE-S2k"/>
             </constraints>

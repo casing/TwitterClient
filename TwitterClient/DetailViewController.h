@@ -21,7 +21,10 @@
 
 @interface DetailViewController : UIViewController
 
+@property (nonatomic, assign) int index;
 @property (nonatomic, strong) Tweet *tweet;
 @property (nonatomic, weak)id<DetailViewControllerDelegate> delegate;
+
+- (void)refreshUI;
 
 @end

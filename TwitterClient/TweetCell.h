@@ -21,6 +21,7 @@
 
 @interface TweetCell : UITableViewCell
 
+@property (nonatomic, assign) int index;
 @property (nonatomic, strong) Tweet *tweet;
 @property (nonatomic, weak)id<TweetCellDelegate> delegate;
 

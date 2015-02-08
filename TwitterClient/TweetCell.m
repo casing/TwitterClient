@@ -19,8 +19,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *createdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tweetTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *retweetCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *favoriteCountLabel;
+@property (weak, nonatomic) IBOutlet UIButton *retweetButton;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 
 - (NSString *)getCreatedDateLabel;
+- (UIImage *)getFavoriteImageEnabled:(BOOL)enable;
+- (UIImage *)getRetweetImageEnabled:(BOOL)enable;
 
 - (IBAction)onReply:(id)sender;
 - (IBAction)onRetweet:(id)sender;
@@ -53,11 +59,10 @@
     [self.profileImageView setImageWithURL:[NSURL URLWithString:tweet.user.profileImageUrl]];
     self.tweetTextLabel.text = tweet.text;
     self.createdLabel.text = [self getCreatedDateLabel];
-}
-
-#pragma mark - ComposeViewControllerDelegate - Methods
-- (void)composeViewController:(ComposeViewController *)composeViewController didComposeMessage:(NSString *)message {
-    
+    self.favoriteCountLabel.text = [NSString stringWithFormat:@"%ld", tweet.favoriteCount];
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%ld", tweet.retweetCount];
+    [self.favoriteButton setImage:[self getFavoriteImageEnabled:tweet.favorited] forState:UIControlStateNormal];
+    [self.retweetButton setImage:[self getRetweetImageEnabled:tweet.retweeted] forState:UIControlStateNormal];
 }
 
 #pragma mark - Private Methods
@@ -82,6 +87,22 @@
         return [NSString stringWithFormat:@"%ldm", components.minute];
     } else {
         return [NSString stringWithFormat:@"%lds", components.second];
+    }
+}
+
+- (UIImage *)getFavoriteImageEnabled:(BOOL)enable {
+    if (enable) {
+        return [UIImage imageNamed:@"favorite_orange_16.png"];
+    } else {
+        return [UIImage imageNamed:@"favorite_gray_16.png"];
+    }
+}
+
+- (UIImage *)getRetweetImageEnabled:(BOOL)enable {
+    if (enable) {
+        return [UIImage imageNamed:@"retweet_green_16.png"];
+    } else {
+        return [UIImage imageNamed:@"retweet_gray_16.png"];
     }
 }
 

@@ -20,6 +20,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *createdAtLabel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *retweetButton;
+@property (weak, nonatomic) IBOutlet UILabel *retweetCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *favoriteCountLabel;
+
+// Button Icons
+- (UIImage *)getFavoriteImageEnabled:(BOOL)enable;
+- (UIImage *)getRetweetImageEnabled:(BOOL)enable;
 
 // Button Actions
 - (IBAction)onReply:(id)sender;
@@ -39,16 +46,41 @@
     [self.dateFormatter setDateFormat:@"dd/MM/yyyy hh:mm a"];
     
     // Set up UI
-    self.nameLabel.text = self.tweet.user.name;
-    self.screenNameLabel.text = [NSString stringWithFormat:@"@%@",self.tweet.user.screenName];
-    [self.profileImageView setImageWithURL:[NSURL URLWithString:self.tweet.user.profileImageUrl]];
-    self.tweetTextLabel.text = self.tweet.text;
-    self.createdAtLabel.text = [self.dateFormatter stringFromDate:self.tweet.createdAt];
+    [self refreshUI];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)refreshUI {
+    self.nameLabel.text = self.tweet.user.name;
+    self.screenNameLabel.text = [NSString stringWithFormat:@"@%@",self.tweet.user.screenName];
+    [self.profileImageView setImageWithURL:[NSURL URLWithString:self.tweet.user.profileImageUrl]];
+    self.tweetTextLabel.text = self.tweet.text;
+    self.createdAtLabel.text = [self.dateFormatter stringFromDate:self.tweet.createdAt];
+    self.favoriteCountLabel.text = [NSString stringWithFormat:@"%ld", self.tweet.favoriteCount];
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%ld", self.tweet.retweetCount];
+    [self.favoriteButton setImage:[self getFavoriteImageEnabled:self.tweet.favorited] forState:UIControlStateNormal];
+    [self.retweetButton setImage:[self getRetweetImageEnabled:self.tweet.retweeted] forState:UIControlStateNormal];
+}
+
+#pragma mark - Private Methods
+- (UIImage *)getFavoriteImageEnabled:(BOOL)enable {
+    if (enable) {
+        return [UIImage imageNamed:@"favorite_orange_24.png"];
+    } else {
+        return [UIImage imageNamed:@"favorite_gray_24.png"];
+    }
+}
+
+- (UIImage *)getRetweetImageEnabled:(BOOL)enable {
+    if (enable) {
+        return [UIImage imageNamed:@"retweet_green_24.png"];
+    } else {
+        return [UIImage imageNamed:@"retweet_gray_24.png"];
+    }
 }
 
 #pragma mark - Action Methods

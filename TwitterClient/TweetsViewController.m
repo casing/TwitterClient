@@ -21,6 +21,7 @@ NSString * const kTweetCell = @"TweetCell";
 ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) DetailViewController *detailViewController;
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
 @property (nonatomic, strong) NSMutableArray *tweets;
 
@@ -29,8 +30,8 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 - (void)onTableRefresh;
 - (void)onCompose;
 - (void)onReplyTweet:(Tweet *)tweet;
-- (void)onRetweetTweet:(Tweet *)tweet;
-- (void)onFavoriteTweet:(Tweet *)tweet;
+- (void)onRetweetTweet:(Tweet *)inTweet;
+- (void)onFavoriteTweet:(Tweet *)inTweet;
 - (void)goToDetailsPage:(int)index;
 
 @end
@@ -111,6 +112,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
     TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kTweetCell forIndexPath:indexPath];
     cell.delegate = self;
     cell.tweet = self.tweets[indexPath.row];
+    cell.index = (int)indexPath.row;
     return cell;
 }
 
@@ -189,14 +191,40 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
     [self presentViewController:nvc animated:YES completion:nil];
 }
 
-- (void)onRetweetTweet:(Tweet *)tweet {
-    [[TwitterClient sharedInstance] retweetStatusWithIdString:tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+- (void)onRetweetTweet:(Tweet *)inTweet {
+    [[TwitterClient sharedInstance]
+     retweetStatusWithIdString:inTweet.idStr
+     completion:^(Tweet *tweet, NSError *error) {
+        if (tweet != nil) {
+            [inTweet setRetweeted:YES];
+            NSInteger retweetCount = [inTweet retweetCount];
+            [inTweet setRetweetCount:retweetCount + 1];
+            [self.tableView reloadData];
+            
+            if (self.detailViewController != nil) {
+                [self.detailViewController setTweet:inTweet];
+                [self.detailViewController refreshUI];
+            }
+        }
         NSLog(@"Retweet Status: %@", tweet.description);
     }];
 }
 
-- (void)onFavoriteTweet:(Tweet *)tweet {
-    [[TwitterClient sharedInstance] favoriteStatusWithIdString:tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+- (void)onFavoriteTweet:(Tweet *)inTweet{
+    [[TwitterClient sharedInstance]
+     favoriteStatusWithIdString:inTweet.idStr
+     completion:^(Tweet *tweet, NSError *error) {
+        if (tweet != nil) {
+            [inTweet setFavorited:YES];
+            NSInteger favoriteCount = [inTweet favoriteCount];
+            [inTweet setFavoriteCount:favoriteCount + 1];
+            [self.tableView reloadData];
+            
+            if (self.detailViewController != nil) {
+                [self.detailViewController setTweet:inTweet];
+                [self.detailViewController refreshUI];
+            }
+        }
         NSLog(@"Favorite Tweet: %@", tweet.description);
     }];
 }
@@ -205,6 +233,8 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
     DetailViewController *vc = [[DetailViewController alloc] init];
     vc.tweet = self.tweets[index];
     vc.delegate = self;
+    vc.index = index;
+    self.detailViewController = vc;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

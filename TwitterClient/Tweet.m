@@ -22,13 +22,19 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         self.createdAt = [formatter dateFromString:createdAtString];
+        self.favoriteCount = [[dictionary objectForKey:@"favorite_count"] integerValue];
+        self.retweetCount = [[dictionary objectForKey:@"retweet_count"] integerValue];
+        self.favorited = [[dictionary objectForKey:@"favorited"] boolValue];
+        self.retweeted = [[dictionary objectForKey:@"retweeted"] boolValue];
     }
     
     return self;
 }
 
 - (NSString *)description {
-    NSString *print = [NSString stringWithFormat:@"%@, %@", self.text, self.user.screenName];
+    NSString *print =
+    [NSString stringWithFormat:@"%@, %@, favourite_count=%ld, retweet_count=%ld, favorited=%d, retweeted=%d",
+     self.text,self.user.screenName, self.favoriteCount, self.retweetCount, self.favorited, self.retweeted];
     return print;
 }
 
