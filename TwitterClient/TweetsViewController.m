@@ -77,17 +77,17 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 }
 
 #pragma mark - ComposeViewControllerDelegate Methods
-- (void)composeViewController:(ComposeViewController *)composeViewController didComposeMessage:(NSString *)message {
-    if (composeViewController.tweet != nil) {
+- (void)composeViewController:(ComposeViewController *)vc didComposeMessage:(NSString *)message {
+    if (vc.tweet != nil) {
         [[TwitterClient sharedInstance]
-         directMessageWithText:composeViewController.tweet.idStr
-         screenName:composeViewController.tweet.user.screenName
+         replyStatusWithIdStr:vc.tweet.idStr
+         text:message
          completion:^(Tweet *tweet, NSError *error) {
-             NSLog(@"OnReply Status: %@", tweet.description);
-             if (tweet != nil) {
-                 [self.tweets insertObject:tweet atIndex:0]; //Insert at the beginning of array
-                 [self.tableView reloadData];
-             }
+            NSLog(@"OnReply Status: %@", tweet.description);
+            if (tweet != nil) {
+                [self.tweets insertObject:tweet atIndex:0]; //Insert at the beginning of array
+                [self.tableView reloadData];
+            }
         }];
     } else {
         [[TwitterClient sharedInstance]

@@ -136,12 +136,12 @@ NSString * const kHomeTimelineKey = @"home_timeline";
 
 }
 
-- (void)directMessageWithText:(NSString *)text screenName:(NSString *)screenName completion:(void (^)(Tweet *tweet, NSError *error))completion {
+- (void)replyStatusWithIdStr:(NSString *)id_str text:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    [params setValue:text forKey:@"text"];
-    [params setValue:screenName forKey:@"screen_name"];
+    [params setValue:id_str forKey:@"in_reply_to_status_id"];
+    [params setValue:text forKey:@"status"];
     
-    [self POST:@"1.1/direct_messages/new.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:@"1.1/statuses/update.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@", responseObject);
         
         Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
@@ -151,6 +151,7 @@ NSString * const kHomeTimelineKey = @"home_timeline";
         // Return failure
         completion(nil, error);
     }];
+
 }
 
 - (void)favoriteStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion {
