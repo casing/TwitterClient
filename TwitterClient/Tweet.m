@@ -26,16 +26,27 @@
         self.retweetCount = [[dictionary objectForKey:@"retweet_count"] integerValue];
         self.favorited = [[dictionary objectForKey:@"favorited"] boolValue];
         self.retweeted = [[dictionary objectForKey:@"retweeted"] boolValue];
+        self.retweetedStatusIdStr = [dictionary valueForKeyPath:@"retweeted_status.id_str"];
     }
     
     return self;
 }
 
 - (NSString *)description {
-    NSString *print =
-    [NSString stringWithFormat:@"%@, %@, favourite_count=%ld, retweet_count=%ld, favorited=%d, retweeted=%d",
-     self.text,self.user.screenName, self.favoriteCount, self.retweetCount, self.favorited, self.retweeted];
-    return print;
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    [array addObject:self.text];
+    [array addObject:self.user.screenName];
+    
+    [array addObject:[NSString stringWithFormat:@"favorited=%d", self.favorited]];
+    [array addObject:[NSString stringWithFormat:@"favorite_count=%ld", self.favoriteCount]];
+    
+    [array addObject:[NSString stringWithFormat:@"retweeted=%d", self.retweeted]];
+    [array addObject:[NSString stringWithFormat:@"retweet_count=%ld", self.retweetCount]];
+    
+    [array addObject:[NSString stringWithFormat:@"id_str=%@", self.idStr]];
+    [array addObject:[NSString stringWithFormat:@"retweeted_status.id_str=%@", self.retweetedStatusIdStr]];
+    
+    return [array componentsJoinedByString:@", "];
 }
 
 + (NSArray *)tweetsWithArray:(NSArray *)array {

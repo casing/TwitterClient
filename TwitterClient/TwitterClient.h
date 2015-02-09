@@ -18,8 +18,10 @@
 - (void)openUrl:(NSURL *)url;
 
 - (void)homeTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion;
+- (void)userTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion;
 - (void)updateStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion;
 - (void)retweetStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion;
+- (void)destroyStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion;
 - (void)replyStatusWithIdStr:(NSString *)id_str text:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion;
 - (void)favoriteStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion;
 - (void)unFavoriteStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion;

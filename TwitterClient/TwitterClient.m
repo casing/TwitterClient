@@ -104,6 +104,16 @@ NSString * const kHomeTimelineKey = @"home_timeline";
     }];
 }
 
+- (void)userTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
+    [self GET:@"1.1/statuses/user_timeline.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
+        completion(tweets, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
 - (void)updateStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setValue:text forKey:@"status"];
@@ -134,6 +144,20 @@ NSString * const kHomeTimelineKey = @"home_timeline";
         completion(nil, error);
     }];
 
+}
+
+- (void)destroyStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion {
+    NSString *endpoint = [NSString stringWithFormat:@"1.1/statuses/destroy/%@.json", id_str];
+    [self POST:endpoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(tweet, nil);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        // Return failure
+        completion(nil, error);
+    }];
 }
 
 - (void)replyStatusWithIdStr:(NSString *)id_str text:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion {

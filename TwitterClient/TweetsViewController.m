@@ -192,41 +192,88 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 }
 
 - (void)onRetweetTweet:(Tweet *)inTweet {
-    [[TwitterClient sharedInstance]
-     retweetStatusWithIdString:inTweet.idStr
-     completion:^(Tweet *tweet, NSError *error) {
-        if (tweet != nil) {
-            [inTweet setRetweeted:YES];
-            NSInteger retweetCount = [inTweet retweetCount];
-            [inTweet setRetweetCount:retweetCount + 1];
-            [self.tableView reloadData];
-            
-            if (self.detailViewController != nil) {
-                [self.detailViewController setTweet:inTweet];
-                [self.detailViewController refreshUI];
-            }
-        }
-        NSLog(@"Retweet Status: %@", tweet.description);
-    }];
+    
+    if (inTweet.retweeted) {
+        
+        // Search User time line for retweeted idStr
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        [params setValue:[User currentUser].screenName forKey:@"screen_name"];
+        [params setValue:inTweet.idStr forKey:@"since_id"];
+        [[TwitterClient sharedInstance]
+         userTimelineWithParams:params
+         completion:^(NSArray *tweets, NSError *error) {
+             for (Tweet *tweet in tweets) {
+                 if ([tweet.retweetedStatusIdStr isEqualToString:inTweet.idStr]) {
+                     NSLog(@"Found Retweeted Tweet: %@", tweet.description);
+                     [[TwitterClient sharedInstance] destroyStatusWithIdString:tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+                         if (tweet != nil) {
+                             [inTweet setRetweeted:NO];
+                             [inTweet setRetweetCount:[inTweet retweetCount] - 1];
+                             [self.tableView reloadData];
+                             
+                             if (self.detailViewController != nil) {
+                                 [self.detailViewController refreshUI];
+                             }
+                         }
+                         NSLog(@"Destroy Retweet Status: %@", tweet.description);
+                     }];
+                     break;
+                 }
+             }
+        }];
+        
+    } else {
+        [[TwitterClient sharedInstance]
+         retweetStatusWithIdString:inTweet.idStr
+         completion:^(Tweet *tweet, NSError *error) {
+             if (tweet != nil) {
+                 [inTweet setRetweeted:YES];
+                 [inTweet setRetweetCount:[inTweet retweetCount] + 1];
+                 [self.tableView reloadData];
+                 
+                 if (self.detailViewController != nil) {
+                     [self.detailViewController refreshUI];
+                 }
+             }
+             NSLog(@"Retweet Status: %@", tweet.description);
+         }];
+    }
 }
 
 - (void)onFavoriteTweet:(Tweet *)inTweet{
-    [[TwitterClient sharedInstance]
-     favoriteStatusWithIdString:inTweet.idStr
-     completion:^(Tweet *tweet, NSError *error) {
-        if (tweet != nil) {
-            [inTweet setFavorited:YES];
-            NSInteger favoriteCount = [inTweet favoriteCount];
-            [inTweet setFavoriteCount:favoriteCount + 1];
-            [self.tableView reloadData];
-            
-            if (self.detailViewController != nil) {
-                [self.detailViewController setTweet:inTweet];
-                [self.detailViewController refreshUI];
-            }
-        }
-        NSLog(@"Favorite Tweet: %@", tweet.description);
-    }];
+    
+    if (inTweet.favorited) {
+        [[TwitterClient sharedInstance]
+         unFavoriteStatusWithIdString:inTweet.idStr
+         completion:^(Tweet *tweet, NSError *error) {
+             if (tweet != nil) {
+                 [inTweet setFavorited:NO];
+                 [inTweet setFavoriteCount:[inTweet favoriteCount] - 1];
+                 
+                 [self.tableView reloadData];
+                 
+                 if (self.detailViewController != nil) {
+                     [self.detailViewController refreshUI];
+                 }
+             }
+             NSLog(@"Unfavorite Tweet: %@", tweet.description);
+         }];
+    } else {
+        [[TwitterClient sharedInstance]
+         favoriteStatusWithIdString:inTweet.idStr
+         completion:^(Tweet *tweet, NSError *error) {
+             if (tweet != nil) {
+                 [inTweet setFavorited:YES];
+                 [inTweet setFavoriteCount:[inTweet favoriteCount] + 1];
+                 [self.tableView reloadData];
+                 
+                 if (self.detailViewController != nil) {
+                     [self.detailViewController refreshUI];
+                 }
+             }
+             NSLog(@"Favorite Tweet: %@", tweet.description);
+         }];
+    }
 }
 
 - (void)goToDetailsPage:(int)index {
