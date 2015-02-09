@@ -25,7 +25,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
 @property (nonatomic, strong) NSMutableArray *tweets;
 
-- (void)updateTweets;
+- (void)updateTweetsWithParams:(NSDictionary *)params;
 - (void)onLogout;
 - (void)onTableRefresh;
 - (void)onCompose;
@@ -69,7 +69,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
                                                                             target:self
                                                                             action:@selector(onCompose)];
     
-    [self updateTweets];
+    [self updateTweetsWithParams:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,10 +109,22 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    Tweet *tweet = self.tweets[indexPath.row];
     TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kTweetCell forIndexPath:indexPath];
     cell.delegate = self;
-    cell.tweet = self.tweets[indexPath.row];
+    cell.tweet = tweet;
     cell.index = (int)indexPath.row;
+    
+    if (indexPath.row == self.tweets.count - 1) {
+        NSInteger id = [tweet.idStr integerValue];
+        id = id + 1;
+        NSString *maxIdStr = [NSString stringWithFormat:@"%ld", id];
+        NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
+        [params setValue:maxIdStr forKey:@"max_id"];
+        [self updateTweetsWithParams:params];
+    }
+    
     return cell;
 }
 
@@ -127,8 +139,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 
 #pragma mark - RefreshControl
 - (void)onTableRefresh {
-    
-    [self updateTweets];
+    [self updateTweetsWithParams:nil];
 }
 
 #pragma mark - DetailViewControllerDelegate Methods
@@ -158,10 +169,12 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 }
 
 #pragma mark - Private Methods
-- (void)updateTweets {
+- (void)updateTweetsWithParams:(NSDictionary *)params {
     
-    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        [self.tweets removeAllObjects];
+    [[TwitterClient sharedInstance] homeTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
+        if (params == nil) {
+            [self.tweets removeAllObjects];
+        }
         [self.tweets addObjectsFromArray:tweets];
         [self.tableView reloadData];
         [self.tableRefreshControl endRefreshing];
