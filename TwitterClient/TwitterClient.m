@@ -85,6 +85,7 @@ NSString * const kHomeTimelineKey = @"home_timeline";
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
         completion(tweets, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
         completion(nil, error);
     }];
 }
