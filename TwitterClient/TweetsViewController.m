@@ -25,7 +25,6 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
 @property (nonatomic, strong) NSMutableArray *tweets;
 
-- (void)updateTweetsWithParams:(NSDictionary *)params;
 - (void)onLogout;
 - (void)onTableRefresh;
 - (void)onCompose;
@@ -69,7 +68,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
                                                                             target:self
                                                                             action:@selector(onCompose)];
     
-    [self updateTweetsWithParams:nil];
+    [self updateHomeTimelineWithParams:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,7 +121,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
         NSString *maxIdStr = [NSString stringWithFormat:@"%ld", id];
         NSMutableDictionary *params = [[NSMutableDictionary alloc]init];
         [params setValue:maxIdStr forKey:@"max_id"];
-        [self updateTweetsWithParams:params];
+        [self updateHomeTimelineWithParams:params];
     }
     
     return cell;
@@ -139,7 +138,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 
 #pragma mark - RefreshControl
 - (void)onTableRefresh {
-    [self updateTweetsWithParams:nil];
+    [self updateHomeTimelineWithParams:nil];
 }
 
 #pragma mark - DetailViewControllerDelegate Methods
@@ -168,8 +167,8 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
     [self onFavoriteTweet:cell.tweet];
 }
 
-#pragma mark - Private Methods
-- (void)updateTweetsWithParams:(NSDictionary *)params {
+#pragma mark - Public Methods
+- (void)updateHomeTimelineWithParams:(NSDictionary *)params {
     
     [[TwitterClient sharedInstance] homeTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
         if (params == nil) {
@@ -181,6 +180,19 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
     }];
 }
 
+- (void)updateMentionsTimelineWithParams:(NSDictionary *)params {
+    
+    [[TwitterClient sharedInstance] mentionsTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
+        if (params == nil) {
+            [self.tweets removeAllObjects];
+        }
+        [self.tweets addObjectsFromArray:tweets];
+        [self.tableView reloadData];
+        [self.tableRefreshControl endRefreshing];
+    }];
+}
+
+#pragma mark - Private Methods
 - (void)onLogout {
     [User logout];
 }

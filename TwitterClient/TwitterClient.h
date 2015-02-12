@@ -19,6 +19,7 @@
 
 - (void)homeTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion;
 - (void)userTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion;
+- (void)mentionsTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion;
 - (void)updateStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion;
 - (void)retweetStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion;
 - (void)destroyStatusWithIdString:(NSString *)id_str completion:(void(^)(Tweet *tweet, NSError *error))completion;

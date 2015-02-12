@@ -10,4 +10,7 @@
 
 @interface TweetsViewController : UIViewController
 
+- (void)updateHomeTimelineWithParams:(NSDictionary *)params;
+- (void)updateMentionsTimelineWithParams:(NSDictionary *)params;
+
 @end

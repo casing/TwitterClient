@@ -19,6 +19,8 @@ NSString * const kMenuUserCell = @"MenuUserCell";
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *menu;
 
+- (UIImage *)getMenuItemIconFromTitle:(NSString *)title;
+
 @end
 
 @implementation MenuViewController
@@ -54,7 +56,10 @@ NSString * const kMenuUserCell = @"MenuUserCell";
         return cell;
     } else {
         MenuItemCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kMenuItemCell];
-        cell.titleLabel.text = self.menu[indexPath.row];
+        NSString *title = self.menu[indexPath.row];
+        cell.titleLabel.text = title;
+        [cell.iconImageView setImage:[self getMenuItemIconFromTitle:title]]
+        ;
         return cell;
     }
 }
@@ -64,7 +69,19 @@ NSString * const kMenuUserCell = @"MenuUserCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.delegate menuViewController:self didSelectMenuTitle:self.menu[indexPath.row]];
+}
+
+#pragma mark - Private Methods
+- (UIImage *)getMenuItemIconFromTitle:(NSString *)title {
+    if ([title isEqualToString:@"Home Timeline"]) {
+        return [UIImage imageNamed:@"home_gray_24.png"];
+    } else if ([title isEqualToString:@"Mentions"]) {
+        return [UIImage imageNamed:@"email_gray_24.png"];
+    }
+    return nil;
 }
 
 @end

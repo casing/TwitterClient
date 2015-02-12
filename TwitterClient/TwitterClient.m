@@ -100,6 +100,16 @@ NSString * const kHomeTimelineKey = @"home_timeline";
     }];
 }
 
+- (void)mentionsTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
+    [self GET:@"1.1/statuses/mentions_timeline.json" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
+        completion(tweets, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
 - (void)updateStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     [params setValue:text forKey:@"status"];
