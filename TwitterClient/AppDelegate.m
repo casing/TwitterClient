@@ -20,10 +20,10 @@
 
 @implementation AppDelegate
 
-+ (TwitterNavigationController *)tweetsViewController {
-    static TwitterNavigationController *instance = nil;
++ (MainViewController *)mainViewController {
+    static MainViewController *instance = nil;
     
-    instance = [[TwitterNavigationController alloc] initWithRootViewController:[[TweetsViewController alloc] init]];
+    instance = [[MainViewController alloc] init];
     
     return instance;
 }
@@ -36,7 +36,7 @@
     
     User *user = [User currentUser];
     if (user != nil) {
-        self.window.rootViewController = [AppDelegate tweetsViewController];
+        self.window.rootViewController = [AppDelegate mainViewController];
     } else {
         NSLog(@"Not Logged in");
         self.window.rootViewController = [[LoginViewController alloc] init];

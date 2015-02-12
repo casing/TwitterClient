@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TwitterNavigationController.h"
+#import "MainViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-+ (TwitterNavigationController *)tweetsViewController;
++ (MainViewController *)mainViewController;
 
 @property (strong, nonatomic) UIWindow *window;
 
