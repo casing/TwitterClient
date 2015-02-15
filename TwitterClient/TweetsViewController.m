@@ -11,7 +11,6 @@
 #import "User.h"
 #import "Tweet.h"
 #import "TweetCell.h"
-#import "ComposeViewController.h"
 #import "DetailViewController.h"
 #import "TwitterNavigationController.h"
 
@@ -25,9 +24,7 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 @property (nonatomic, strong) UIRefreshControl *tableRefreshControl;
 @property (nonatomic, strong) NSMutableArray *tweets;
 
-- (void)onLogout;
 - (void)onTableRefresh;
-- (void)onCompose;
 - (void)onReplyTweet:(Tweet *)tweet;
 - (void)onRetweetTweet:(Tweet *)inTweet;
 - (void)onFavoriteTweet:(Tweet *)inTweet;
@@ -55,18 +52,6 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
     
     // Setup Title
     self.title = @"YTwitter";
-    
-    // Setup Logout Button
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Log Out"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(onLogout)];
-    
-    // Setup Tweet Button
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Compose"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(onCompose)];
     
     [self updateHomeTimelineWithParams:nil];
 }
@@ -193,20 +178,6 @@ ComposeViewControllerDelegate, TweetCellDelegate, DetailViewControllerDelegate>
 }
 
 #pragma mark - Private Methods
-- (void)onLogout {
-    [User logout];
-}
-
-- (void)onCompose {
-    //Show User Tweet View Controller
-    ComposeViewController *vc = [[ComposeViewController alloc] init];
-    vc.delegate = self;
-    vc.tweet = nil;
-    vc.text = @"What's happening?";
-    TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:nvc animated:YES completion:nil];
-}
-
 - (void)onReplyTweet:(Tweet *)tweet {
     ComposeViewController *vc = [[ComposeViewController alloc] init];
     vc.delegate = self;

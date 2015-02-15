@@ -9,19 +9,21 @@
 #import "MainViewController.h"
 #import "TwitterNavigationController.h"
 #import "MenuViewController.h"
-#import "TweetsViewController.h"
+#import "CenterViewController.h"
+
+#define CENTER_TAG 1
 
 @interface MainViewController () <MenuViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *mainView;
 @property (nonatomic, strong) TwitterNavigationController *menuViewNavigationController;
-@property (nonatomic, strong) TwitterNavigationController *tweetsNavigationViewController;
+@property (nonatomic, strong) TwitterNavigationController *centerNavigationController;
 @property (nonatomic, strong) MenuViewController *menuViewController;
-@property (nonatomic, strong) TweetsViewController *tweetsViewController;
+@property (nonatomic, strong) CenterViewController *centerViewController;
 @property (nonatomic, assign) CGPoint mainViewCenter;
 @property (nonatomic, assign) CGFloat panLimitX;
 
-- (void)showTweetsView;
+- (void)showCenterView;
 
 @end
 
@@ -34,17 +36,17 @@
     self.menuViewController = [[MenuViewController alloc] init];
     self.menuViewController.delegate = self;
     
-    // Setup Tweets View Controller
-    self.tweetsViewController = [[TweetsViewController alloc] init];
+    // Setup Center View Controller
+    self.centerViewController = [[CenterViewController alloc] init];
     
     // Setup Main Navigation Controllers
     self.menuViewNavigationController = [[TwitterNavigationController alloc] initWithRootViewController:self.menuViewController];
-    self.tweetsNavigationViewController = [[TwitterNavigationController alloc] initWithRootViewController:self.tweetsViewController];
+    self.centerNavigationController = [[TwitterNavigationController alloc] initWithRootViewController:self.centerViewController];
     
     // Setup up Main View
-    self.mainView.frame = self.tweetsNavigationViewController.view.frame;
+    self.mainView.frame = self.centerNavigationController.view.frame;
     [self.mainView addSubview:self.menuViewNavigationController.view];
-    [self.mainView addSubview:self.tweetsNavigationViewController.view];
+    [self.mainView addSubview:self.centerNavigationController.view];
     
     // Setup the Pan limit, gives value of how much to pan the tweets view controller
     self.panLimitX = self.view.frame.size.width * 1.50;
@@ -58,14 +60,16 @@
 #pragma mark - MenuViewControllerDelegate Methods
 - (void)menuViewController:(MenuViewController *)vc didSelectMenuTitle:(NSString *)title {
     if ([title isEqualToString:@"User"]) {
-        
+        [self.centerViewController setUser:[User currentUser]];
+        [self.centerViewController showProfile];
     } else if([title isEqualToString:@"Home Timeline"]) {
-        [self.tweetsViewController updateHomeTimelineWithParams:nil];
-        [self showTweetsView];
+        [self.centerViewController updateHomeTimelineWithParams:nil];
+        [self.centerViewController showTweets];
     } else if([title isEqualToString:@"Mentions"]) {
-        [self.tweetsViewController updateMentionsTimelineWithParams:nil];
-        [self showTweetsView];
+        [self.centerViewController updateMentionsTimelineWithParams:nil];
+        [self.centerViewController showTweets];
     }
+    [self showCenterView];
 }
 
 #pragma mark - Gesture Methods
@@ -75,7 +79,7 @@
     CGPoint velocity = [sender velocityInView:self.view];
     
     if (sender.state == UIGestureRecognizerStateBegan) {
-        self.mainViewCenter = self.tweetsNavigationViewController.view.center;
+        self.mainViewCenter = self.centerNavigationController.view.center;
     } else if (sender.state == UIGestureRecognizerStateChanged) {
         CGFloat x = self.mainViewCenter.x + translation.x;
         if (x >= self.panLimitX) {
@@ -83,25 +87,24 @@
         } else if (x <= self.view.center.x) {
             x = self.view.center.x;
         }
-        self.tweetsNavigationViewController.view.center = CGPointMake(x, self.mainViewCenter.y);
+        self.centerNavigationController.view.center = CGPointMake(x, self.mainViewCenter.y);
     } else if (sender.state == UIGestureRecognizerStateEnded) {
         
         if (velocity.x > 0) {
             [UIView animateWithDuration:0.2 animations:^{
-                self.tweetsNavigationViewController.view.center = CGPointMake(self.panLimitX, self.mainViewCenter.y);
+                self.centerNavigationController.view.center = CGPointMake(self.panLimitX, self.mainViewCenter.y);
             }];
         } else {
-            [self showTweetsView];
+            [self showCenterView];
         }
     }
 
 }
 
 #pragma mark - Private Methods
-- (void)showTweetsView {
+- (void)showCenterView {
     [UIView animateWithDuration:0.2 animations:^{
-        self.tweetsNavigationViewController.view.center = self.mainView.center;
+        self.centerNavigationController.view.center = self.mainView.center;
     }];
 }
-
 @end
