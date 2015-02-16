@@ -7,9 +7,11 @@
 //
 
 #import "Tweet.h"
+#import "TwitterClient.h"
 
 @implementation Tweet
 
+#pragma mark - Private Methods
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     
     self = [super init];
@@ -48,6 +50,80 @@
     
     return [array componentsJoinedByString:@", "];
 }
+
+- (void)onFavoriteTweetWithCompletion:(void(^)(Tweet *tweet, NSError *error))completion {
+    if (self.favorited) {
+        [[TwitterClient sharedInstance]
+         unFavoriteStatusWithIdString:self.idStr
+         completion:^(Tweet *tweet, NSError *error) {
+             if (tweet != nil) {
+                 self.favorited = NO;
+                 self.favoriteCount--;
+                 completion(tweet, error);
+                 NSLog(@"Unfavorite Tweet: %@", tweet.description);
+             } else {
+                 NSLog(@"%@", error);
+             }
+         }];
+    } else {
+        [[TwitterClient sharedInstance]
+         favoriteStatusWithIdString:self.idStr
+         completion:^(Tweet *tweet, NSError *error) {
+             if (tweet != nil) {
+                 self.favorited = YES;
+                 self.favoriteCount++;
+                 completion(tweet, error);
+                 NSLog(@"Favorite Tweet: %@", tweet.description);
+             } else {
+                 NSLog(@"%@", error);
+             }
+         }];
+    }
+}
+
+- (void)onRetweetTweetWithCompletion:(void(^)(Tweet *tweet, NSError *error))completion {
+    if (self.retweeted) {
+        // Search User time line for retweeted idStr
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        [params setValue:[User currentUser].screenName forKey:@"screen_name"];
+        [params setValue:self.idStr forKey:@"since_id"];
+        [[TwitterClient sharedInstance]
+         userTimelineWithParams:params
+         completion:^(NSArray *tweets, NSError *error) {
+             for (Tweet *tweet in tweets) {
+                 if ([tweet.retweetedStatusIdStr isEqualToString:self.idStr]) {
+                     NSLog(@"Found Retweeted Tweet: %@", tweet.description);
+                     [[TwitterClient sharedInstance] destroyStatusWithIdString:tweet.idStr completion:^(Tweet *tweet, NSError *error) {
+                         if (tweet != nil) {
+                             self.retweeted = NO;
+                             self.retweetCount--;
+                             completion(tweet, error);
+                         }
+                         NSLog(@"Destroy Retweet Status: %@", tweet.description);
+                     }];
+                     break;
+                 }
+             }
+         }];
+        
+    } else {
+        [[TwitterClient sharedInstance]
+         retweetStatusWithIdString:self.idStr
+         completion:^(Tweet *tweet, NSError *error) {
+             if (tweet != nil) {
+                 self.retweeted = YES;
+                 self.retweetCount++;
+                 completion(tweet, error);
+                 NSLog(@"Retweet Status: %@", tweet.description);
+             } else {
+                 NSLog(@"%@", error);
+             }
+         }];
+    }
+
+}
+
+#pragma mark - Class Methods
 
 + (NSArray *)tweetsWithArray:(NSArray *)array {
     NSMutableArray *tweets = [[NSMutableArray alloc] init];

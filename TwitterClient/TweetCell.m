@@ -43,6 +43,8 @@
     
     self.profileImageView.layer.cornerRadius = 5;
     self.profileImageView.clipsToBounds = YES;
+    [self.profileImageView setUserInteractionEnabled:YES];
+    [self.profileImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapProfileImage:)]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -116,6 +118,11 @@
 
 - (IBAction)onFavorite:(id)sender {
     [self.delegate didFavoriteTweetCell:self];
+}
+
+#pragma mark - OnTap Gesture
+- (IBAction)onTapProfileImage:(UITapGestureRecognizer *)sender {
+    [self.delegate didTapProfileTweetCell:self];
 }
 
 @end

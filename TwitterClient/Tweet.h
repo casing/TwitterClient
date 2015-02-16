@@ -21,8 +21,9 @@
 @property (nonatomic, assign) BOOL retweeted;
 @property (nonatomic, strong) NSString *retweetedStatusIdStr;
 
-
 - (id)initWithDictionary:(NSDictionary *)dictionary;
+- (void)onFavoriteTweetWithCompletion:(void(^)(Tweet *tweet, NSError *error))completion;
+- (void)onRetweetTweetWithCompletion:(void(^)(Tweet *tweet, NSError *error))completion;
 
 + (NSArray *)tweetsWithArray:(NSArray *)array;
 

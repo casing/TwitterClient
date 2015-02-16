@@ -9,7 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
+@class CenterViewController;
+
+@protocol CenterViewControllerDelegate <NSObject>
+
+- (void)onShowMenuCenterViewController:(CenterViewController *)vc;
+
+@end
+
 @interface CenterViewController : UIViewController
+
+@property (nonatomic, weak)id<CenterViewControllerDelegate> delegate;
 
 - (void)showProfile;
 - (void)showTweets;

@@ -10,16 +10,19 @@
 #import "TweetsViewController.h"
 #import "ProfileViewController.h"
 #import "ComposeViewController.h"
+#import "DetailViewController.h"
 #import "TwitterNavigationController.h"
+#import "TwitterClient.h"
 #import "User.h"
 
-@interface CenterViewController ()
+@interface CenterViewController () <TweetsViewControllerDelegate, DetailViewControllerDelegate, ComposeViewControllerDelegate>
 
 @property (nonatomic, strong)TweetsViewController *tweetsViewController;
 @property (nonatomic, strong)ProfileViewController *profileViewController;
 
-- (void)onLogout;
+- (void)onMenu;
 - (void)onCompose;
+- (void)onReplyWithTweet:(Tweet *)tweet;
 
 @end
 
@@ -28,20 +31,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Setup Logout Button
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Log Out"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(onLogout)];
+    // Setup Menu Button
+    
+    UIBarButtonItem *menuItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                              target:self
+                                                                              action:@selector(onMenu)];
+    
+    NSArray *leftActionButtonItems = @[menuItem];
+    self.navigationItem.leftBarButtonItems = leftActionButtonItems;
     
     // Setup Tweet Button
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Compose"
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(onCompose)];
+    UIBarButtonItem *composeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                                              target:self
+                                                                              action:@selector(onCompose)];
+    
+    NSArray *rightActionButtonItems = @[composeItem];
+    self.navigationItem.rightBarButtonItems = rightActionButtonItems;
+    
+    // Setup Title
+    self.title = @"YTwitter";
     
     self.tweetsViewController = [[TweetsViewController alloc] init];
+    [self.tweetsViewController.view setUserInteractionEnabled:YES];
+    self.tweetsViewController.delegate = self;
     self.profileViewController = [[ProfileViewController alloc] init];
+    [self.profileViewController.view setUserInteractionEnabled:YES];
     
     [self.view addSubview:self.tweetsViewController.view];
     [self.view addSubview:self.profileViewController.view];
@@ -55,8 +69,8 @@
 }
 
 #pragma mark - Private Methods
-- (void)onLogout {
-    [User logout];
+- (void)onMenu {
+    [self.delegate onShowMenuCenterViewController:self];
 }
 
 - (void)onCompose {
@@ -68,6 +82,85 @@
     TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nvc animated:YES completion:nil];
 }
+
+- (void)onReplyWithTweet:(Tweet *)tweet {
+    ComposeViewController *composeViewController = [[ComposeViewController alloc] init];
+    composeViewController.delegate = self;
+    composeViewController.tweet = tweet;
+    composeViewController.text = [NSString stringWithFormat:@"@%@", tweet.user.screenName];
+    TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:composeViewController];
+    [self presentViewController:nvc animated:YES completion:nil];
+}
+
+#pragma mark - TweetsViewControllerDelegate Methods
+- (void)tweetsViewController:(TweetsViewController *)vc onUserProfile:(User *)user {
+    ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
+    profileViewController.user = user;
+    [self.navigationController pushViewController:profileViewController animated:YES];
+}
+
+- (void)tweetsViewController:(TweetsViewController *)vc onDetailsTweet:(Tweet *)tweet {
+    DetailViewController *detailViewController = [[DetailViewController alloc] init];
+    detailViewController.tweet = tweet;
+    detailViewController.delegate = self;
+    [detailViewController.view setUserInteractionEnabled:YES];
+    [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+- (void)tweetsViewController:(TweetsViewController *)vc onReplyTweet:(Tweet *)tweet {
+    [self onReplyWithTweet:tweet];
+}
+
+- (void)tweetsViewController:(TweetsViewController *)vc onRetweetTweet:(Tweet *)tweet {
+    [tweet onRetweetTweetWithCompletion:^(Tweet *tweet, NSError *error) {
+        [vc updateTable];
+    }];
+}
+
+- (void)tweetsViewController:(TweetsViewController *)vc onFavoriteTweet:(Tweet *)tweet {
+    [tweet onFavoriteTweetWithCompletion:^(Tweet *tweet, NSError *error) {
+        [vc updateTable];
+    }];
+}
+
+#pragma mark - DetailViewControllerDelegate Methods
+- (void)didReply:(DetailViewController *)vc {
+    [self onReplyWithTweet:vc.tweet];
+}
+
+- (void)didRetweet:(DetailViewController *)vc {
+    [vc.tweet onRetweetTweetWithCompletion:^(Tweet *tweet, NSError *error) {
+        [vc refreshUI];
+    }];
+
+}
+
+- (void)didFavorite:(DetailViewController *)vc {
+    [vc.tweet onFavoriteTweetWithCompletion:^(Tweet *tweet, NSError *error) {
+        [vc refreshUI];
+    }];
+}
+
+#pragma mark - ComposeViewControllerDelegate Methods
+- (void)composeViewController:(ComposeViewController *)vc didComposeMessage:(NSString *)message {
+    if (vc.tweet != nil) {
+        [[TwitterClient sharedInstance]
+         replyStatusWithIdStr:vc.tweet.idStr
+         text:message
+         completion:^(Tweet *tweet, NSError *error) {
+             NSLog(@"OnReply Status: %@", tweet.description);
+             [self.tweetsViewController pushTweetToTable:tweet];
+         }];
+    } else {
+        [[TwitterClient sharedInstance]
+         updateStatusWithText:message
+         completion:^(Tweet *tweet, NSError *error) {
+             NSLog(@"Just Tweeted: %@", tweet.description);
+             [self.tweetsViewController pushTweetToTable:tweet];
+         }];
+    }
+}
+
 
 #pragma mark - Public Methods
 - (void)showProfile {

@@ -16,6 +16,7 @@
 - (void)didReplyTweetCell:(TweetCell *)cell;
 - (void)didRetweetTweetCell:(TweetCell *)cell;
 - (void)didFavoriteTweetCell:(TweetCell *)cell;
+- (void)didTapProfileTweetCell:(TweetCell *)cell;
 
 @end
 

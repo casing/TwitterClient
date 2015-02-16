@@ -11,9 +11,7 @@
 #import "MenuViewController.h"
 #import "CenterViewController.h"
 
-#define CENTER_TAG 1
-
-@interface MainViewController () <MenuViewControllerDelegate>
+@interface MainViewController () <MenuViewControllerDelegate, CenterViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *mainView;
 @property (nonatomic, strong) TwitterNavigationController *menuViewNavigationController;
@@ -22,8 +20,10 @@
 @property (nonatomic, strong) CenterViewController *centerViewController;
 @property (nonatomic, assign) CGPoint mainViewCenter;
 @property (nonatomic, assign) CGFloat panLimitX;
+@property (nonatomic, assign) BOOL centerVisable;
 
 - (void)showCenterView;
+- (void)showMenuView;
 
 @end
 
@@ -38,6 +38,7 @@
     
     // Setup Center View Controller
     self.centerViewController = [[CenterViewController alloc] init];
+    self.centerViewController.delegate = self;
     
     // Setup Main Navigation Controllers
     self.menuViewNavigationController = [[TwitterNavigationController alloc] initWithRootViewController:self.menuViewController];
@@ -50,6 +51,7 @@
     
     // Setup the Pan limit, gives value of how much to pan the tweets view controller
     self.panLimitX = self.view.frame.size.width * 1.50;
+    self.centerVisable = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,8 +70,19 @@
     } else if([title isEqualToString:@"Mentions"]) {
         [self.centerViewController updateMentionsTimelineWithParams:nil];
         [self.centerViewController showTweets];
+    } else if([title isEqualToString:@"Log Out"]) {
+        [User logout];
     }
     [self showCenterView];
+}
+
+#pragma mark - CenterViewControllerDelegate Methods
+- (void)onShowMenuCenterViewController:(CenterViewController *)vc {
+    if (self.centerVisable) {
+        [self showMenuView];
+    } else {
+        [self showCenterView];
+    }
 }
 
 #pragma mark - Gesture Methods
@@ -91,20 +104,27 @@
     } else if (sender.state == UIGestureRecognizerStateEnded) {
         
         if (velocity.x > 0) {
-            [UIView animateWithDuration:0.2 animations:^{
-                self.centerNavigationController.view.center = CGPointMake(self.panLimitX, self.mainViewCenter.y);
-            }];
+            [self showMenuView];
         } else {
             [self showCenterView];
         }
     }
 
 }
-
+//
 #pragma mark - Private Methods
 - (void)showCenterView {
     [UIView animateWithDuration:0.2 animations:^{
         self.centerNavigationController.view.center = self.mainView.center;
+        self.centerVisable = YES;
     }];
 }
+
+- (void)showMenuView {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.centerNavigationController.view.center = CGPointMake(self.panLimitX, self.mainView.center.y);
+        self.centerVisable = NO;
+    }];
+}
+
 @end

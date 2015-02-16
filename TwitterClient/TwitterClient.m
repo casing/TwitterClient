@@ -9,8 +9,8 @@
 #import "TwitterClient.h"
 #import "Tweet.h"
 
-NSString * const kTwitterConsumerKey = @"zAE4HG8B01jD3FMUnvPNB5vqC";
-NSString * const kTwitterConsumerSecret = @"49Neda4nWOeV1osuaugwIy8gg1QPz6DhO5Fh4xrlTMztWG9ysV";
+NSString * const kTwitterConsumerKey = @"5ujGW6puP0gWOVSDJ4bvSyYEj";
+NSString * const kTwitterConsumerSecret = @"w2JLdrXKrPvgdhrOxJ4NqeXDOcGOWVyseVMepDhN8NTIhZDL1N";
 NSString * const kTwitterBaseUrl = @"https://api.twitter.com";
 NSString * const kHomeTimelineKey = @"home_timeline";
 

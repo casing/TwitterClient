@@ -9,7 +9,6 @@
 #import "DetailViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "TwitterClient.h"
-#import "TwitterNavigationController.h"
 
 @interface DetailViewController ()
 

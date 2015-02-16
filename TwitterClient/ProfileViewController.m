@@ -73,7 +73,9 @@
 }
 
 - (void)updateUserTimeline {
-    [[TwitterClient sharedInstance]userTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    [params setValue:self.user.screenName forKey:@"screen_name"];
+    [[TwitterClient sharedInstance]userTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
         [self.tweets removeAllObjects];
         [self.tweets addObjectsFromArray:tweets];
         [self.tableView reloadData];

@@ -29,7 +29,7 @@ NSString * const kMenuUserCell = @"MenuUserCell";
     [super viewDidLoad];
     
     // Initialize Menu Item
-    self.menu = @[@"User", @"Home Timeline", @"Mentions"];
+    self.menu = @[@"User", @"Home Timeline", @"Mentions", @"Log Out"];
     
     // Initialize TableView
     self.tableView.dataSource = self;
@@ -58,8 +58,7 @@ NSString * const kMenuUserCell = @"MenuUserCell";
         MenuItemCell *cell = [self.tableView dequeueReusableCellWithIdentifier:kMenuItemCell];
         NSString *title = self.menu[indexPath.row];
         cell.titleLabel.text = title;
-        [cell.iconImageView setImage:[self getMenuItemIconFromTitle:title]]
-        ;
+        [cell.iconImageView setImage:[self getMenuItemIconFromTitle:title]];
         return cell;
     }
 }
@@ -80,6 +79,8 @@ NSString * const kMenuUserCell = @"MenuUserCell";
         return [UIImage imageNamed:@"home_gray_24.png"];
     } else if ([title isEqualToString:@"Mentions"]) {
         return [UIImage imageNamed:@"email_gray_24.png"];
+    } else if ([title isEqual:@"Log Out"]) {
+        return [UIImage imageNamed:@"logout_gray_24.png"];
     }
     return nil;
 }

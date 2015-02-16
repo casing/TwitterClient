@@ -16,6 +16,7 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2sV-Dq-dlv">
                         <rect key="frame" x="8" y="8" width="40" height="40"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="4Ya-by-Gac"/>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="50" id="RXh-aV-dro"/>
