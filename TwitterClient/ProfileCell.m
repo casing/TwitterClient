@@ -35,6 +35,7 @@
 - (void)awakeFromNib {
     self.profileImageView.layer.cornerRadius = 5;
     self.profileImageView.clipsToBounds = YES;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
