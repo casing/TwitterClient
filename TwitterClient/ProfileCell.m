@@ -22,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *followersNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followersLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tweetsNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tweetsLabel;
 
 - (void)updateUIView;
 - (void)setTextColor:(UIColor *)color;
@@ -56,6 +58,7 @@
     self.locationLabel.text = self.user.location;
     self.followersNumberLabel.text = [NSString stringWithFormat:@"%ld", self.user.followersCount];
     self.followingNumberLabel.text = [NSString stringWithFormat:@"%ld", self.user.friendsCount];
+    self.tweetsNumberLabel.text = [NSString stringWithFormat:@"%ld", self.user.tweetsCount];
     [self.profileImageView setImageWithURL:[NSURL URLWithString:self.user.profileImageUrl]];
     if (self.user.profileBannerImageUrl != nil) {
         [self.headerImageView setImageWithURL:[NSURL URLWithString:self.user.profileBannerImageUrl]];
@@ -75,6 +78,8 @@
     self.followingNumberLabel.textColor = color;
     self.followingLabel.textColor = color;
     self.followersLabel.textColor = color;
+    self.tweetsNumberLabel.textColor = color;
+    self.tweetsLabel.textColor = color;
 }
 
 @end
