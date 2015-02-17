@@ -74,7 +74,7 @@
                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aJT-w7-VOk">
                         <rect key="frame" x="0.0" y="0.0" width="321" height="115"/>
                         <subviews>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="i9v-mF-alM">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" defersCurrentPageDisplay="YES" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="i9v-mF-alM">
                                 <rect key="frame" x="149" y="78" width="23" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="currentPageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -142,6 +142,9 @@
                     <mask key="constraints">
                         <exclude reference="Xny-A1-3bX"/>
                         <exclude reference="nZF-UO-7kO"/>
+                        <exclude reference="YhE-y6-uMZ"/>
+                        <exclude reference="G1Z-ob-OlM"/>
+                        <exclude reference="HoX-QU-odV"/>
                         <exclude reference="PEV-NR-xn5"/>
                         <exclude reference="G89-Bd-Lwa"/>
                         <exclude reference="bJO-1k-8uf"/>

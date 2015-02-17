@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (nonatomic, assign) BOOL pageControlBeingUsed;
+@property (nonatomic, strong) NSMutableArray *views;
 
 - (void)updateUIView;
 - (void)setTextColor:(UIColor *)color;
@@ -37,9 +38,11 @@
 @implementation ProfileCell
 
 - (void)awakeFromNib {
+    self.views = [[NSMutableArray alloc] init];
     self.profileImageView.layer.cornerRadius = 5;
     self.profileImageView.clipsToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.scrollView.delegate = self;
     self.pageControlBeingUsed = NO;
 }
 
@@ -85,26 +88,26 @@
 }
 
 - (void)setupScrollView {
-    NSMutableArray *views = [[NSMutableArray alloc] init];
+    [self.views removeAllObjects];
     
     if (self.user.profileBannerImageUrl != nil) {
         UIImageView *bannerImageView = [[UIImageView alloc] init];
         bannerImageView.contentMode = UIViewContentModeScaleAspectFill;
         [bannerImageView setImageWithURL:[NSURL URLWithString:self.user.profileBannerImageUrl]];
-        [views addObject:bannerImageView];
+        [self.views addObject:bannerImageView];
     }
     
     if (self.user.profileBackgroundImageUrl != nil) {
         UIImageView *backgroundImageView = [[UIImageView alloc] init];
         backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
         [backgroundImageView setImageWithURL:[NSURL URLWithString:self.user.profileBackgroundImageUrl]];
-        [views addObject:backgroundImageView];
+        [self.views addObject:backgroundImageView];
     }
     
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * views.count, self.scrollView.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.views.count, self.scrollView.frame.size.height);
     
     // Add Views to Scroll View
-    for (UIImageView *view in views) {
+    for (UIImageView *view in self.views) {
         view.frame = self.scrollView.frame;
         view.center = self.scrollView.center;
         [self.scrollView addSubview:view];
@@ -124,6 +127,14 @@
 
 #pragma mark - UIScrollViewDelegate Methods
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
+    // Control opacity of scroll view
+    CGFloat percent = ((int)(self.scrollView.contentOffset.x) % (int)(self.scrollView.frame.size.width)) / self.scrollView.frame.size.width;
+    if (percent > 0.0 && percent < 1.0) { // Of course, you can specify your own range of alpha values
+        UIImageView *view = self.views[self.pageControl.currentPage];
+        view.alpha = percent;
+        NSLog(@"ImageView Alpha: %f", percent);
+    }
+    
     // Update the page when more than 50% of the previous/next page is visible
     CGFloat pageWidth = self.scrollView.frame.size.width;
     int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
@@ -131,10 +142,12 @@
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    NSLog(@"ScrollView Begin Dragging");
     self.pageControlBeingUsed = NO;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSLog(@"ScrollView End Decelerating");
     self.pageControlBeingUsed = NO;
 }
 
