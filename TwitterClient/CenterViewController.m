@@ -76,7 +76,7 @@
 - (void)onCompose {
     //Show User Tweet View Controller
     ComposeViewController *vc = [[ComposeViewController alloc] init];
-    vc.delegate = self.tweetsViewController;
+    vc.delegate = self;
     vc.tweet = nil;
     vc.text = @"What's happening?";
     TwitterNavigationController *nvc = [[TwitterNavigationController alloc] initWithRootViewController:vc];

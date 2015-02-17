@@ -87,7 +87,6 @@
 
 #pragma mark - Gesture Methods
 - (IBAction)onPanGesture:(UIPanGestureRecognizer *)sender {
-    CGPoint location = [sender locationInView:self.view];
     CGPoint translation = [sender translationInView:self.view];
     CGPoint velocity = [sender velocityInView:self.view];
     

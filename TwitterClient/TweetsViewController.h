@@ -23,7 +23,7 @@
 
 @end
 
-@interface TweetsViewController : UIViewController <ComposeViewControllerDelegate>
+@interface TweetsViewController : UIViewController
 
 @property (nonatomic, weak)id<TweetsViewControllerDelegate> delegate;
 
