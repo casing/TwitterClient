@@ -9,8 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
+@class ProfileViewController;
+
+@protocol ProfileViewControllerDelegate <NSObject>
+
+- (void)profileViewController:(ProfileViewController *)view onAccountsCurrentUser:(User *)currentUser;
+
+@end
+
 @interface ProfileViewController : UIViewController
 
+@property (nonatomic,weak) id<ProfileViewControllerDelegate> delegate;
 @property (nonatomic,strong) User* user;
 
 @end

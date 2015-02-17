@@ -32,6 +32,7 @@
 - (void)setTextColor:(UIColor *)color;
 - (void)setupScrollView;
 - (IBAction)changePage:(UIPageControl *)sender;
+- (IBAction)onLongPressHeader:(UILongPressGestureRecognizer *)sender;
 
 @end
 
@@ -44,6 +45,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.scrollView.delegate = self;
     self.pageControlBeingUsed = NO;
+    [self.scrollView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongPressHeader:)]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -123,6 +125,10 @@
     frame.size = self.scrollView.frame.size;
     [self.scrollView scrollRectToVisible:frame animated:YES];
     self.pageControlBeingUsed = YES;
+}
+
+- (IBAction)onLongPressHeader:(UILongPressGestureRecognizer *)sender {
+    [self.delegate profileCell:self withLongPressGestureRecognizer:sender];
 }
 
 #pragma mark - UIScrollViewDelegate Methods

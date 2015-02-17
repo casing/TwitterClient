@@ -83,6 +83,7 @@
                                 </connections>
                             </pageControl>
                         </subviews>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="i9v-mF-alM" firstAttribute="top" secondItem="aJT-w7-VOk" secondAttribute="top" constant="78" id="NuQ-Qc-VhI"/>
                             <constraint firstAttribute="trailing" secondItem="i9v-mF-alM" secondAttribute="trailing" constant="149" id="vne-3S-JM5"/>

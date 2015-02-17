@@ -11,7 +11,7 @@
 #import "ProfileCell.h"
 #import "TwitterClient.h"
 
-@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate, ProfileCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -95,6 +95,7 @@
     if (indexPath.section == 0) {
         ProfileCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ProfileCell"];
         cell.user = self.user;
+        cell.delegate = self;
         return cell;
     } else if(indexPath.section == 1) {
         TweetCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
@@ -102,6 +103,18 @@
         return cell;
     }
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
+}
+
+#pragma mark - ProfileCellDelegate Methods
+- (void)profileCell:(ProfileCell *)cell withLongPressGestureRecognizer:(UILongPressGestureRecognizer *)sender {
+    
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [self.delegate profileViewController:self onAccountsCurrentUser:[User currentUser]];
+    }
 }
 
 @end

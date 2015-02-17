@@ -11,11 +11,12 @@
 #import "ProfileViewController.h"
 #import "ComposeViewController.h"
 #import "DetailViewController.h"
+#import "AccountsViewController.h"
 #import "TwitterNavigationController.h"
 #import "TwitterClient.h"
 #import "User.h"
 
-@interface CenterViewController () <TweetsViewControllerDelegate, DetailViewControllerDelegate, ComposeViewControllerDelegate>
+@interface CenterViewController () <TweetsViewControllerDelegate, DetailViewControllerDelegate, ComposeViewControllerDelegate, ProfileViewControllerDelegate>
 
 @property (nonatomic, strong)TweetsViewController *tweetsViewController;
 @property (nonatomic, strong)ProfileViewController *profileViewController;
@@ -55,6 +56,7 @@
     [self.tweetsViewController.view setUserInteractionEnabled:YES];
     self.tweetsViewController.delegate = self;
     self.profileViewController = [[ProfileViewController alloc] init];
+    self.profileViewController.delegate = self;
     [self.profileViewController.view setUserInteractionEnabled:YES];
     
     [self.view addSubview:self.tweetsViewController.view];
@@ -159,6 +161,13 @@
              [self.tweetsViewController pushTweetToTable:tweet];
          }];
     }
+}
+
+#pragma mark - ProfileViewControllerDelegate Methods
+- (void)profileViewController:(ProfileViewController *)view onAccountsCurrentUser:(User *)currentUser {
+    AccountsViewController *accountsViewController = [[AccountsViewController alloc] init];
+    [accountsViewController.view setUserInteractionEnabled:YES];
+    [self.navigationController pushViewController:accountsViewController animated:YES];
 }
 
 
