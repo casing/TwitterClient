@@ -34,6 +34,8 @@
 		3EBD470C1A83D34100B6C451 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD470A1A83D34100B6C451 /* ComposeViewController.m */; };
 		3EBD470D1A83D34100B6C451 /* ComposeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBD470B1A83D34100B6C451 /* ComposeViewController.xib */; };
 		3EBE1B351A92BC5800DFBFE6 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE1B341A92BC5800DFBFE6 /* UIColor+HexString.m */; };
+		3EBE1B391A92C96A00DFBFE6 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE1B371A92C96A00DFBFE6 /* ProfileCell.m */; };
+		3EBE1B3A1A92C96A00DFBFE6 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBE1B381A92C96A00DFBFE6 /* ProfileCell.xib */; };
 		3ECD53421A8B1EF1004D4DAC /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECD53401A8B1EF1004D4DAC /* MenuViewController.m */; };
 		3ECD53431A8B1EF1004D4DAC /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3ECD53411A8B1EF1004D4DAC /* MenuViewController.xib */; };
 		3ECD53471A8B209D004D4DAC /* MenuUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECD53451A8B209D004D4DAC /* MenuUserCell.m */; };
@@ -100,6 +102,9 @@
 		3EBD470B1A83D34100B6C451 /* ComposeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComposeViewController.xib; sourceTree = "<group>"; };
 		3EBE1B331A92BC5800DFBFE6 /* UIColor+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexString.h"; sourceTree = "<group>"; };
 		3EBE1B341A92BC5800DFBFE6 /* UIColor+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexString.m"; sourceTree = "<group>"; };
+		3EBE1B361A92C96A00DFBFE6 /* ProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileCell.h; sourceTree = "<group>"; };
+		3EBE1B371A92C96A00DFBFE6 /* ProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
+		3EBE1B381A92C96A00DFBFE6 /* ProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		3ECD533F1A8B1EF1004D4DAC /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		3ECD53401A8B1EF1004D4DAC /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		3ECD53411A8B1EF1004D4DAC /* MenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuViewController.xib; sourceTree = "<group>"; };
@@ -272,6 +277,9 @@
 				3ECD53491A8B224D004D4DAC /* MenuItemCell.h */,
 				3ECD534A1A8B224D004D4DAC /* MenuItemCell.m */,
 				3ECD534B1A8B224D004D4DAC /* MenuItemCell.xib */,
+				3EBE1B361A92C96A00DFBFE6 /* ProfileCell.h */,
+				3EBE1B371A92C96A00DFBFE6 /* ProfileCell.m */,
+				3EBE1B381A92C96A00DFBFE6 /* ProfileCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -393,6 +401,7 @@
 				3ECD53431A8B1EF1004D4DAC /* MenuViewController.xib in Resources */,
 				3E6CE3601A8F3D1D00A5B261 /* CenterViewController.xib in Resources */,
 				3E2F9CD91A81DB3500DB5775 /* LaunchScreen.xib in Resources */,
+				3EBE1B3A1A92C96A00DFBFE6 /* ProfileCell.xib in Resources */,
 				3ECD53931A8BC1B0004D4DAC /* MainViewController.xib in Resources */,
 				3E2F9CD61A81DB3500DB5775 /* Images.xcassets in Resources */,
 				3ECD53481A8B209D004D4DAC /* MenuUserCell.xib in Resources */,
@@ -457,6 +466,7 @@
 				3ECD53421A8B1EF1004D4DAC /* MenuViewController.m in Sources */,
 				3E2F9CCE1A81DB3500DB5775 /* TwitterClient.xcdatamodeld in Sources */,
 				3E2F9D021A81E9F500DB5775 /* TwitterClient.m in Sources */,
+				3EBE1B391A92C96A00DFBFE6 /* ProfileCell.m in Sources */,
 				3E2F9D0D1A8284BE00DB5775 /* TweetsViewController.m in Sources */,
 				3E6CE35A1A8F283400A5B261 /* ProfileViewController.m in Sources */,
 				3E6CA7DC1A84958D000D8A37 /* DetailViewController.m in Sources */,
