@@ -33,6 +33,7 @@
 		3EBD47081A83217F00B6C451 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBD47061A83217F00B6C451 /* TweetCell.xib */; };
 		3EBD470C1A83D34100B6C451 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBD470A1A83D34100B6C451 /* ComposeViewController.m */; };
 		3EBD470D1A83D34100B6C451 /* ComposeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBD470B1A83D34100B6C451 /* ComposeViewController.xib */; };
+		3EBE1B351A92BC5800DFBFE6 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE1B341A92BC5800DFBFE6 /* UIColor+HexString.m */; };
 		3ECD53421A8B1EF1004D4DAC /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECD53401A8B1EF1004D4DAC /* MenuViewController.m */; };
 		3ECD53431A8B1EF1004D4DAC /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3ECD53411A8B1EF1004D4DAC /* MenuViewController.xib */; };
 		3ECD53471A8B209D004D4DAC /* MenuUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ECD53451A8B209D004D4DAC /* MenuUserCell.m */; };
@@ -97,6 +98,8 @@
 		3EBD47091A83D34100B6C451 /* ComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
 		3EBD470A1A83D34100B6C451 /* ComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
 		3EBD470B1A83D34100B6C451 /* ComposeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComposeViewController.xib; sourceTree = "<group>"; };
+		3EBE1B331A92BC5800DFBFE6 /* UIColor+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexString.h"; sourceTree = "<group>"; };
+		3EBE1B341A92BC5800DFBFE6 /* UIColor+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexString.m"; sourceTree = "<group>"; };
 		3ECD533F1A8B1EF1004D4DAC /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		3ECD53401A8B1EF1004D4DAC /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		3ECD53411A8B1EF1004D4DAC /* MenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuViewController.xib; sourceTree = "<group>"; };
@@ -154,6 +157,7 @@
 		3E2F9CC41A81DB3500DB5775 /* TwitterClient */ = {
 			isa = PBXGroup;
 			children = (
+				3EBE1B2F1A92BC2200DFBFE6 /* Categories */,
 				3E6CA7DE1A85E8A4000D8A37 /* Navigation */,
 				3EBD47031A83215700B6C451 /* Views */,
 				3E2F9D031A81F6A400DB5775 /* Models */,
@@ -270,6 +274,15 @@
 				3ECD534B1A8B224D004D4DAC /* MenuItemCell.xib */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		3EBE1B2F1A92BC2200DFBFE6 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				3EBE1B331A92BC5800DFBFE6 /* UIColor+HexString.h */,
+				3EBE1B341A92BC5800DFBFE6 /* UIColor+HexString.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		83BEDA416F913EA976F306C4 /* Pods */ = {
@@ -451,6 +464,7 @@
 				3E2F9CCB1A81DB3500DB5775 /* AppDelegate.m in Sources */,
 				3E2F9CC81A81DB3500DB5775 /* main.m in Sources */,
 				3E6CA7E21A85E8F5000D8A37 /* TwitterNavigationController.m in Sources */,
+				3EBE1B351A92BC5800DFBFE6 /* UIColor+HexString.m in Sources */,
 				3ECD53471A8B209D004D4DAC /* MenuUserCell.m in Sources */,
 				3ECD534C1A8B224D004D4DAC /* MenuItemCell.m in Sources */,
 			);

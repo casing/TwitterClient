@@ -8,6 +8,7 @@
 
 #import "ProfileViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "UIColor+HexString.h"
 #import "TweetCell.h"
 #import "TwitterClient.h"
 
@@ -22,11 +23,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *followingNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followersNumberLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *followingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *followersLabel;
 
 @property (nonatomic, strong) NSMutableArray *tweets;
 
 - (void)updateUIView;
 - (void)updateUserTimeline;
+- (void)setTextColor:(UIColor *)color;
 
 @end
 
@@ -68,7 +72,13 @@
     self.followersNumberLabel.text = [NSString stringWithFormat:@"%ld", self.user.followersCount];
     self.followingNumberLabel.text = [NSString stringWithFormat:@"%ld", self.user.friendsCount];
     [self.profileImageView setImageWithURL:[NSURL URLWithString:self.user.profileImageUrl]];
-    [self.headerImageView setImageWithURL:[NSURL URLWithString:self.user.backgroundImageUrl]];
+    if (self.user.profileBannerImageUrl != nil) {
+        [self.headerImageView setImageWithURL:[NSURL URLWithString:self.user.profileBannerImageUrl]];
+    } else {
+        [self.headerImageView setImageWithURL:[NSURL URLWithString:self.user.profileBackgroundImageUrl]];
+    }
+    [self.view setBackgroundColor:[UIColor colorFromHexString:self.user.profileBackgroundColor withAlpha:1.0]];
+    [self setTextColor:[UIColor colorFromHexString:self.user.profileTextColor withAlpha:1.0]];
     [self updateUserTimeline];
 }
 
@@ -80,6 +90,17 @@
         [self.tweets addObjectsFromArray:tweets];
         [self.tableView reloadData];
     }];
+}
+
+- (void)setTextColor:(UIColor *)color {
+    self.nameLabel.textColor = color;
+    self.screenNameLabel.textColor = color;
+    self.descriptionLabel.textColor = color;
+    self.locationLabel.textColor = color;
+    self.followersNumberLabel.textColor = color;
+    self.followingNumberLabel.textColor = color;
+    self.followingLabel.textColor = color;
+    self.followersLabel.textColor = color;
 }
 
 #pragma mark - TableViewDelegate Methods
