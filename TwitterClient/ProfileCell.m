@@ -10,9 +10,8 @@
 #import "UIImageView+AFNetworking.h"
 #import "UIColor+HexString.h"
 
-@interface ProfileCell ()
+@interface ProfileCell () <UIScrollViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *headerImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *screenNameLabel;
@@ -24,9 +23,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *followersLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tweetsNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tweetsLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (nonatomic, assign) BOOL pageControlBeingUsed;
 
 - (void)updateUIView;
 - (void)setTextColor:(UIColor *)color;
+- (void)setupScrollView;
+- (IBAction)changePage:(UIPageControl *)sender;
 
 @end
 
@@ -36,6 +40,7 @@
     self.profileImageView.layer.cornerRadius = 5;
     self.profileImageView.clipsToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.pageControlBeingUsed = NO;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -61,11 +66,7 @@
     self.followingNumberLabel.text = [NSString stringWithFormat:@"%ld", self.user.friendsCount];
     self.tweetsNumberLabel.text = [NSString stringWithFormat:@"%ld", self.user.tweetsCount];
     [self.profileImageView setImageWithURL:[NSURL URLWithString:self.user.profileImageUrl]];
-    if (self.user.profileBannerImageUrl != nil) {
-        [self.headerImageView setImageWithURL:[NSURL URLWithString:self.user.profileBannerImageUrl]];
-    } else {
-        [self.headerImageView setImageWithURL:[NSURL URLWithString:self.user.profileBackgroundImageUrl]];
-    }
+    [self setupScrollView];
     [self setBackgroundColor:[UIColor colorFromHexString:self.user.profileBackgroundColor withAlpha:1.0]];
     [self setTextColor:[UIColor colorFromHexString:self.user.profileTextColor withAlpha:1.0]];
 }
@@ -81,6 +82,60 @@
     self.followersLabel.textColor = color;
     self.tweetsNumberLabel.textColor = color;
     self.tweetsLabel.textColor = color;
+}
+
+- (void)setupScrollView {
+    NSMutableArray *views = [[NSMutableArray alloc] init];
+    
+    if (self.user.profileBannerImageUrl != nil) {
+        UIImageView *bannerImageView = [[UIImageView alloc] init];
+        bannerImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [bannerImageView setImageWithURL:[NSURL URLWithString:self.user.profileBannerImageUrl]];
+        [views addObject:bannerImageView];
+    }
+    
+    if (self.user.profileBackgroundImageUrl != nil) {
+        UIImageView *backgroundImageView = [[UIImageView alloc] init];
+        backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [backgroundImageView setImageWithURL:[NSURL URLWithString:self.user.profileBackgroundImageUrl]];
+        [views addObject:backgroundImageView];
+    }
+    
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * views.count, self.scrollView.frame.size.height);
+    
+    // Add Views to Scroll View
+    for (UIImageView *view in views) {
+        view.frame = self.scrollView.frame;
+        view.center = self.scrollView.center;
+        [self.scrollView addSubview:view];
+    }
+    
+}
+
+- (IBAction)changePage:(UIPageControl *)sender {
+    // update the scroll view to the appropriate page
+    CGRect frame;
+    frame.origin.x = self.scrollView.frame.size.width * self.pageControl.currentPage;
+    frame.origin.y = 0;
+    frame.size = self.scrollView.frame.size;
+    [self.scrollView scrollRectToVisible:frame animated:YES];
+    self.pageControlBeingUsed = YES;
+}
+
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    // Update the page when more than 50% of the previous/next page is visible
+    CGFloat pageWidth = self.scrollView.frame.size.width;
+    int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    self.pageControl.currentPage = page;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.pageControlBeingUsed = NO;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.pageControlBeingUsed = NO;
 }
 
 @end
